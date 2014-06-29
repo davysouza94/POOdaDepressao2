@@ -1,4 +1,3 @@
-
 #ifndef ASSENTO_H
 #define ASSENTO_H
 
@@ -6,18 +5,24 @@
 
 class Assento{
 private:
-	int idAssento;
-	int livre;
-	char idFileira;
+//Atributos
+	int idAssento;		//identificador do assento
+	int livre;			//flag disponibilidade do assento
+	char idFileira;		//identificador da fileira
 
 public:
+//Metodos
+	//Construtores e Destrutor
 	Assento();
 	Assento(int assento, int idfila);
-	bool getLivre();
-	void setLivre(int val);
-	bool operator==(const int num);
 	~Assento();
 
+	//GETTERS
+	bool getLivre();
+	void setLivre(int val);
+
+	//Operador sobrecarregado
+	bool operator==(const int num);
 };
 
 Assento::Assento(){

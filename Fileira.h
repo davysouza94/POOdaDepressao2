@@ -1,26 +1,29 @@
 #ifndef FILEIRA_H
 #define FILEIRA_H
 
-
+//includes necessarios
 #include "Assento.h"
 #include "Lista.h"
 
 class Fileira{
 private:
-	char idFileira;
-	int numAssentos;
-
+//Atributos privados
+	char idFileira;		//identificador da fileira
+	int numAssentos;	//numero de assentos na fileira
 
 public:
-	int disponiveis;
-	Lista < Assento > assentos;
+//Metodos e Atributos publicos
+
+	int disponiveis;		//qtd de lugares disponiveis na fileira
+	Lista < Assento > assentos;		//Lista de objetos do tipo Assento
 	
+	//Construtores e Destrutor
 	Fileira();
 	Fileira(int n,char idfila);
 	~Fileira();
 
-	int insereAssento();
-	int getAssentosLivres();
+	int insereAssento();	  //Insere o assento na lista de assentos - chamado no construtor
+	int getAssentosLivres();  //Obtem quntidade de assentos livres
 
 
 };

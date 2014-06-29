@@ -17,18 +17,16 @@ private:
 	string dtVenda;
 
 public:
+
+	//GETTERS AND SETTERS
 	string getHoraInic();
 	void setHoraInic(int h, int min);
-
 	string getHoraFim();
 	void setHoraFim(int h, int min);
-
 	int* getDtInic();
 	void setDtInic(int dia, int mes, int ano);
-
 	int* getDtFim();
 	void setDtFim(int dia, int mes, int ano);
-
 	string getDtVenda();
 	void setDtVenda(string data);
 };

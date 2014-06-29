@@ -1,35 +1,47 @@
 #ifndef SALA_H
 #define SALA_H
 
+//Includes necessarios
 #include "Situacao.h"
 #include "Sessao.h"
 #include "Lista.h"
 #include <string>
 #include "Data.h"
 
+
+/* CLASSE SALA */
 class Sala{
 private:
-	int numSala;
-	int capacidade;
-	int qtFileiras;
-	int qtAssentos;
-	int qtSessoes;
-	Data hora;
-	Situacao situacao;
-	Lista < Sessao > sessoes;
+//Atributos
+	int numSala;		//Numero da Sala (ID)
+	int capacidade;		//Capacidade
+	int qtFileiras;		//Quantidade de Fileiras
+	int qtAssentos;		//Quantidade de Assentos
+	int qtSessoes;		//Quantidade de Sessoes
+	Data hora;			//Horario da Sessao (Inicio e Termino)
+	Situacao situacao;	//enum Situacao, que indica o estado da sala
+	Lista < Sessao > sessoes;  //Lista para objetos do tipo Sessao
 
 public:
+//Metodos
+
+	//Construtores
 	Sala();
 	Sala(int nsala, int numAssento, int qtFil);
 
+	//GETERS AND SETTER
 	int getNumSala();
 	int getCapacidade();
 	void setNumSala(int nSala);
 	void setCapacidade(int cap);
 	void setSituacao(int sit);
 	void inserirSessao();
-	No<Sessao>* buscarSessao(int chave);
-	void exibirSessoes();
+
+	//Metodos Gerais
+	No<Sessao>* buscarSessao(int chave);  //Busca Sessao na lista de sessoes, de acordo com a chave Inserida
+	void exibirSessoes();  //Exibe Lista de sessoes
+
+	//Sobrecarga de Operadores
 	friend ostream& operator<<(ostream& os, const Sala& elem);
 	bool operator==(const int num);
 	bool operator!=(const int num);
@@ -38,7 +50,7 @@ public:
 	bool operator<(const int num);
 	bool operator<(const Sala elem);
 };
-
+//construtor padrao
 Sala::Sala():sessoes(){
 	qtAssentos = 10;
 	qtSessoes = 0;
@@ -47,6 +59,7 @@ Sala::Sala():sessoes(){
 	capacidade = qtFileiras*10;
 	situacao = disponivel;
 }
+//costrutor com valores especificos
 Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
 	numSala = nsala;
 	qtAssentos = numAssento;
@@ -55,15 +68,18 @@ Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
 	capacidade = numAssento*qtFileiras;
 	situacao = disponivel;
 }
-
+//Metodo para inserir sessao na lista de sessoes pertencentes a sala
 void Sala::inserirSessao(){
-	Sessao *s, sIn;
-	string nome;
-	int h, m;
-	char aux;
+	Sessao *s, sIn; //auxiliares
+	string nome;	//nome do filme
+	int h, m;		//horario
+	char aux;		//auxiliar
+
 	std::cout << "Insira o nome do filme: " << std::endl;
 	std::cin >> nome;
-	std::cout << "Insira o inicio e o fim do filme: " << std::endl;
+
+	//Insere horarios do filme
+	std::cout << "Insira os horarios de inicio e fim do filme: " << std::endl;
 	std::cin >> h >> aux >> m;
 	hora.setHoraInic(h,m);
 	std::cin >> h >> aux >> m;
@@ -72,9 +88,7 @@ void Sala::inserirSessao(){
 	inicio = hora.getHoraInic();
 	fim = hora.getHoraFim();
 
-	cout << inicio << fim;
-
-	try{
+	try{//Tratamento de erro para inserir sessao
 		s = new Sessao(numSala, qtSessoes, inicio, fim, nome, qtFileiras, qtAssentos);
 		sIn = *s;
 		sessoes.insereFim(sIn);

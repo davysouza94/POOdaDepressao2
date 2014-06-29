@@ -1,24 +1,32 @@
 #ifndef SESSAO_H
 #define SESSAO_H
 
+//Includes necessarios
 #include "Fileira.h"
 #include "Lista.h"
 #include <string>
 #include "Data.h"
 
+/* CLASSE SESSAO */
 class Sessao{
 private:
-	int numvendido;
-	int lugaresVagos;
-	string inicio, fim;
-	string filme;
-	int idSala;
-	int idSessao;
-	Lista <Fileira> fileiras;
+//Atributos
+	int numvendido;			//igressos vendidos
+	int lugaresVagos;		//lugares vagos
+	string inicio, fim;		//armazena horarios do filme (Inicio e termino)
+	string filme;			//armazena nome do filme
+	int idSala;				//identificador da Sala
+	int idSessao;			//identificador da Sessao
+	Lista <Fileira> fileiras;  //Lista de objetos do tipo fileiras
 
 public:
+//Metodos
+
+	//Construtores
 	Sessao();
 	Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento);
+
+	//Metodos Gerais
 	void setStatus(int encerrado);
 	int getStatus();
 	string getInicio();
@@ -30,11 +38,14 @@ public:
 	void setNumVendido(int numVendido);
 	string getFilme();
 	void setFilme(string nomeFilme);
+
+	//Operadores sobrecarregados
 	friend ostream& operator<<(ostream& os, const Sessao& elem);
 	bool operator==(const int num);
 	bool operator!=(const int num);
 };
 
+//Construtor Padrao, inicializa com 'zero' os atributos de sessao
 Sessao::Sessao(){
 	inicio = " ";
 	fim = " ";
@@ -43,6 +54,7 @@ Sessao::Sessao(){
 	lugaresVagos = 1;
 	idSessao = 0;
 }
+
 
 Sessao::Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento){
 	inicio = inic;
@@ -178,9 +190,9 @@ bool Sessao::operator!=(const int num){
   return false;
 }
 
-
+//Sobrecarga do operador << para impressao de todos os dados necessarios da sessao
 ostream& operator<<(ostream& os, const Sessao& elem){
-	os << "ID da sala: " << elem.idSala << std::endl << "ID da sessão: " << elem.idSessao << std::endl;
+	os << "ID da sala: " << elem.idSala << std::endl << "ID da sessao: " << elem.idSessao << std::endl;
 	os << "Filme: " << elem.filme << std::endl;
 	os << "Inicio: " << elem.inicio << " - Termino: " << elem.fim << std::endl;
 	os << "Disponibilidade: " << elem.lugaresVagos << std::endl;

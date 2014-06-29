@@ -2,16 +2,21 @@
 #define GERENCIAR_SALA_H
 
 using namespace std;
-
+//includes necessarios
 #include "Sala.h"
 #include "Lista.h"
 
+/* CLASSE gerenciarSala */
 class gerenciarSala {
 private:
-	Lista <Sala> salas;
+//Atributos
+	Lista <Sala> salas; //Lista de objetos do tipo Sala
 
 public:
+//Metodos
+	//Construtor
 	gerenciarSala();
+
 	void inserirSala();
 	void exibeSalas();
 	void situacao();
