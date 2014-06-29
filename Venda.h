@@ -18,6 +18,8 @@ private:
 	int ingressosInteiro;
 	int ingressosMeio;
 	FormaPgto pgto;
+	Sala *salaDesejada;
+	Sessao *sessaoDesejada;
 public:
 	Venda();
 	double calculaValorTotal(int qtdInteiro, int qtdMeio);
@@ -25,9 +27,19 @@ public:
 	void addIngressos(gerenciarSala &salas);
 	friend ostream& operator<<(ostream& os, const Venda& elem);
 	void setFormPgto(int pag);
+
+	int getIngressosMeio() const {
+		return ingressosMeio;
+	}
+
+	int getIngressosInteiro() const {
+		return ingressosInteiro;
+	}
 };
 
 Venda::Venda():pgto(){
+	salaDesejada = NULL;
+	sessaoDesejada = NULL;
 	ingressosInteiro = 0;
 	ingressosMeio = 0;
 	sessao = 0;
@@ -45,9 +57,25 @@ double Venda::calculaValorTotal(int qtdIng, int tipo){
 void Venda::emitirIngressos(gerenciarSala &salas){
 	//diminuir vagas na sessao
 	int pag;
+	char opc = 'x';
 	cout << "Forma de pagamento" << endl;
 	cout << "1 - Dinheiro" << endl << "2 - Cartao" << endl;
 	cin >> pag;
+	setFormPgto(pag);
+	if(sessaoDesejada->setDisponivel(ingressosInteiro+ingressosMeio, 0) == 0){
+		cout << "Lugares adjacentes nao disponiveis." << endl;
+		cout << "Desejam sentar separados? <S/N>" << endl;
+		while(opc!='S' && opc!='s' && opc!='n' && opc!='N'){
+			cin >> opc;
+		}
+		if(opc == 'S' || opc == 's'){
+			sessaoDesejada->setDisponivel(ingressosInteiro+ingressosMeio, 1);
+		}else{
+			cout << "Venda nao efetuada" << endl;
+			throw 0;
+			return;
+		}
+	}
 
 	cout << "Filme: " << nomeFilme << endl;
 	cout << "Quantidade de Ingressos: " << endl;
@@ -60,22 +88,28 @@ void Venda::addIngressos(gerenciarSala &salas){
 	int qtdIng;
 	int idSala;
 	int idSessao;
-	Sala *salaDesejada = NULL;
-	Sessao *sessaoDesejada = NULL;
+	int lugares;
 	salas.exibeSessoes();
 	std::cout << "Escolha a sala e a sessao desejada" << endl;
 	std::cin >> idSala >> idSessao;
 	if(salas.buscarSala(idSala) == NULL){
 		cout << "Sala nao existe!" << endl;
+		throw -1;
 		return;
 	}
 	salaDesejada = &(salas.buscarSala(idSala)->elem);
 	if(salaDesejada->buscarSessao(idSessao) == NULL){
 		cout << "Sessao nao existe!" << endl;
+		throw -1;
 		return;
 	}
 	sessaoDesejada = &(salaDesejada->buscarSessao(idSessao)->elem);
-
+	lugares = sessaoDesejada->getDisponivel();
+	if(lugares == 0){
+		cout << "Sessão lotada" << endl;
+		throw -1;
+		return;
+	}
 	nomeFilme = sessaoDesejada->getFilme();
 	cout << "Filme escolhido: " << nomeFilme << endl;
 	cout << "Escolha o Tipo do Ingresso:" << endl;
@@ -84,6 +118,9 @@ void Venda::addIngressos(gerenciarSala &salas){
 
 	cout << "Escolha a quantidade de Ingressos:" << endl;
 	cin >> qtdIng;
+	if(qtdIng + ingressosInteiro + ingressosMeio > lugares){
+		cout << "Nao existem lugares suficientes" << endl;
+	}
 	if(tipo == 1){
 		ingressosInteiro+=qtdIng;
 	}else{
@@ -102,7 +139,7 @@ ostream& operator<<(ostream& os, const Venda& elem){
 	os << "Data:" << elem.dtVenda << endl;
 	if((int)elem.pgto == 1)
 		os << "Forma de Pagamento: Dinheiro" <<endl;
-	if((int)elem.pgto == 0)
+	if((int)elem.pgto == 2)
 		os << "Forma de Pagamento: Cartao" <<endl;
     return os;
 }

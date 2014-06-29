@@ -124,7 +124,11 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 		cout << "1 - Adicionar Ingresso" << endl;
 		cout << "2 - Remover Ingresso" << endl;
 		cout << "3 - Emitir Ingresso" << endl;
+		if(v!=NULL){
+			cout << "Ingressos - Inteiro: " << v->getIngressosInteiro() << " - Meio: " << v->getIngressosMeio() << endl;
+		}
 		cin >> opcao;
+
 
 		switch (opcao) {
 			case 0:
@@ -132,11 +136,13 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 			case 1:
 				if(v == NULL)
 					v = new Venda();
-				try{
-					v->addIngressos(salas);
-				}catch(int erro){
-					cout << "Sessao ou sala invalidas";
-				}
+					try{
+						v->addIngressos(salas);
+					}
+					catch(int num){
+						delete(v);
+						v = NULL;
+					}
 				break;
 			case 2:
 				delete(v);
@@ -147,7 +153,11 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 					std::cout << "Nenhum ingresso adicionado, a compra será cancelada.";
 					return;
 				}
-				v->emitirIngressos(salas);
+				try{
+					v->emitirIngressos(salas);
+				}catch(int n){
+					if(n == 0) return;
+				}
 				vendas.insereFim(*v);
 				return;
 			default:

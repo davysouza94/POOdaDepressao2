@@ -9,24 +9,30 @@ class Fileira{
 private:
 	char idFileira;
 	int numAssentos;
+
+
+public:
+	int disponiveis;
 	Lista < Assento > assentos;
 	
-public:
 	Fileira();
 	Fileira(int n,char idfila);
 	~Fileira();
 
 	int insereAssento();
-	bool verificaDisponibilidade();
+	int getAssentosLivres();
+
 
 };
 
 Fileira::Fileira(){
 	idFileira = 0;
 	numAssentos = 0;
+	disponiveis = 0;
 }
 Fileira::Fileira(int n,char idfila){
 	numAssentos = n;
+	disponiveis = n;
 	idFileira = idfila;
 	cout << "CriandoFila - " << idfila << std::endl;
 	int i;
@@ -42,7 +48,16 @@ Fileira::Fileira(int n,char idfila){
 Fileira::~Fileira(){
 
 }
-bool Fileira::verificaDisponibilidade(){
-	return 0;
+int Fileira::getAssentosLivres(){
+	No<Assento> *aux;
+	disponiveis = 0;
+	aux = assentos.getPl();
+	while(aux!=NULL){
+		if(aux->elem.getLivre() == 1){
+			disponiveis++;
+		}
+		aux = aux->prox;
+	}
+	return disponiveis;
 }
 #endif

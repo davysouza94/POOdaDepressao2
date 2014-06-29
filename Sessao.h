@@ -9,7 +9,7 @@
 class Sessao{
 private:
 	int numvendido;
-	int encerrado;
+	int lugaresVagos;
 	string inicio, fim;
 	string filme;
 	int idSala;
@@ -26,6 +26,7 @@ public:
 	int getHorario();
 	void setHorario(int hor, int min);
 	int getDisponivel();
+	int setDisponivel(int qt, int opc);
 	void setNumVendido(int numVendido);
 	string getFilme();
 	void setFilme(string nomeFilme);
@@ -35,11 +36,11 @@ public:
 };
 
 Sessao::Sessao(){
-	//inicio = ;
-	//fim = 0;
+	inicio = " ";
+	fim = " ";
 	idSala = 0;
 	numvendido = 0;
-	encerrado = 1;
+	lugaresVagos = 1;
 	idSessao = 0;
 }
 
@@ -48,7 +49,7 @@ Sessao::Sessao(int idsala, int idsessao, string inic, string theEnd, string nome
 	fim = theEnd;
 	idSala = idsala;
 	numvendido = 0;
-	encerrado = 1;
+	lugaresVagos = 1;
 	filme = nomeFilme;
 	idSessao = idsessao;
 
@@ -62,7 +63,7 @@ Sessao::Sessao(int idsala, int idsessao, string inic, string theEnd, string nome
 		fileiras.insereFim(fIn);
 
 	}
-
+	getDisponivel();
 }
 
 void Sessao::setStatus(int encerrado){
@@ -75,7 +76,7 @@ void Sessao::setStatus(int encerrado){
 		encerrado = 1;
 }
 int Sessao::getStatus(){
-	return encerrado;
+	return lugaresVagos;
 }
 
 string Sessao::getInicio(){
@@ -86,9 +87,73 @@ string Sessao::getFim(){
 }
 
 int Sessao::getDisponivel(){
-	return encerrado;
+	No<Fileira> *aux;
+	lugaresVagos=0;
+	aux = fileiras.getPl();
+	while(aux!=NULL){
+		lugaresVagos += aux->elem.getAssentosLivres();
+		aux = aux->prox;
+	}
+	return lugaresVagos;
 }
 
+int Sessao::setDisponivel(int qt, int opc){
+	if(opc == 0){
+		No<Fileira> *aux;
+		No<Assento> *assentoVago;
+		int i;
+		aux = fileiras.getPl();
+		while(aux!=NULL){
+			if(aux->elem.disponiveis < qt)
+				aux = aux->prox;
+			else break;
+		}
+		if(aux == NULL){ //retorna 0 se nao encontrou lugares adjacentes
+			getDisponivel();
+			return 0;
+		}
+
+		assentoVago = aux->elem.assentos.busca(1); //retorna endereço do nó do assento disponivel
+		for(i=0;i<=qt;i++){
+			if(assentoVago == NULL){//nao deve ocorrer
+				cout << "erro!" << endl;
+				return -1;
+			}
+			assentoVago->elem.setLivre(0);
+			assentoVago = assentoVago->prox;
+		}
+		getDisponivel();
+		return 1; //retorna 1 se for possivel ocupar o assento
+	}else if(opc == 1){
+		No<Fileira> *aux;
+		No<Assento> *assentoVago;
+		int i;
+
+		aux = fileiras.getPl();
+		for(i=0;i<qt && aux!=NULL;){
+			while(aux!=NULL){
+				if(aux->elem.disponiveis == 0)
+					aux = aux->prox;
+				else break;
+			}
+			if(aux == NULL){ //nao deve acontecer
+				cout << "erro";
+				return -1;
+			}
+			assentoVago = aux->elem.assentos.busca(1); //retorna endereço do nó do assento disponivel
+			while(assentoVago!=NULL && i<qt){
+				assentoVago->elem.setLivre(0);
+				assentoVago = assentoVago->prox;
+				i++;
+			}
+			getDisponivel();
+		}
+
+
+
+	}
+	return 1;
+}
 void Sessao::setNumVendido(int numVendido){
 	numvendido = numVendido;
 }
@@ -118,7 +183,7 @@ ostream& operator<<(ostream& os, const Sessao& elem){
 	os << "ID da sala: " << elem.idSala << std::endl << "ID da sessão: " << elem.idSessao << std::endl;
 	os << "Filme: " << elem.filme << std::endl;
 	os << "Inicio: " << elem.inicio << " - Termino: " << elem.fim << std::endl;
-	os << "Disponibilidade: " << elem.encerrado << std::endl;
+	os << "Disponibilidade: " << elem.lugaresVagos << std::endl;
     return os;
 }
 

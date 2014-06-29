@@ -11,7 +11,8 @@ class Sala{
 private:
 	int numSala;
 	int capacidade;
-	int qtFileira;
+	int qtFileiras;
+	int qtAssentos;
 	int qtSessoes;
 	Data hora;
 	Situacao situacao;
@@ -39,17 +40,19 @@ public:
 };
 
 Sala::Sala():sessoes(){
+	qtAssentos = 10;
 	qtSessoes = 0;
-	qtFileira = 10;
+	qtFileiras = 10;
 	numSala = 0;
-	capacidade = qtFileira*10;
+	capacidade = qtFileiras*10;
 	situacao = disponivel;
 }
 Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
-	qtSessoes = 0;
 	numSala = nsala;
-	qtFileira = qtFil;
-	capacidade = numAssento*qtFileira;
+	qtAssentos = numAssento;
+	qtFileiras = qtFil;
+	qtSessoes = 0;
+	capacidade = numAssento*qtFileiras;
 	situacao = disponivel;
 }
 
@@ -72,7 +75,7 @@ void Sala::inserirSessao(){
 	cout << inicio << fim;
 
 	try{
-		s = new Sessao(numSala, qtSessoes, inicio, fim, nome, 10, 10);
+		s = new Sessao(numSala, qtSessoes, inicio, fim, nome, qtFileiras, qtAssentos);
 		sIn = *s;
 		sessoes.insereFim(sIn);
 		qtSessoes++;

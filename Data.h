@@ -2,6 +2,7 @@
 #define DATA_H
 
 #include<string>
+#include<sstream>
 
 class Data{
 private:
@@ -33,9 +34,11 @@ public:
 };
 
 string Data::getHoraInic(){
-	string inicio;
-	inicio = horaInic[0] + ':' + horaInic[1];
+	ostringstream ss;
+	ss << horaInic[0] << ':' << horaInic[1];
+	string inicio = ss.str();
 	return inicio;
+	//inicio = horaInic[0] + ':' + horaInic[1];
 }
 
 void Data::setHoraInic(int h, int min){
@@ -44,8 +47,9 @@ void Data::setHoraInic(int h, int min){
 }
 
 string Data::getHoraFim(){
-	string fim;
-	fim = horaFim[0] + ':' + horaFim[1];
+	ostringstream ss;
+	ss << horaFim[0] << ':' << horaFim[1];
+	string fim = ss.str();
 	return fim;
 }
 void Data::setHoraFim(int h, int min){
