@@ -1,15 +1,15 @@
 #include <iostream>
 #include "gerenciarSala.h"
-#include "venderIngresso.h"
+#include "Venda.h"
 
 using namespace std;
 void gerenciaSala(gerenciarSala &salas);
 void gerenciaSessao(gerenciarSala &salas);
-void gerenciaVenda(venderIngresso &vendas);
+void gerenciaVenda(Lista <Venda> &vendas);
 
 int main() {
 	gerenciarSala salas;
-	venderIngresso vendas;
+	Lista <Venda> vendas;
 
 	int opcao = 1;
 
@@ -113,8 +113,42 @@ void gerenciaSessao(gerenciarSala &salas){
 			}
 }
 
-void gerenciaVenda(venderIngresso &vendas){
-	vendas.gerencia();
+void gerenciaVenda(Lista<Venda> &vendas){
+	Venda *v = NULL;
+	int opcao = 0;
+
+	while(opcao != -1){
+		cout << "Escolha uma das opcoes: " << endl;
+		cout << "0 - Voltar" << endl;
+		cout << "1 - Adicionar Ingresso" << endl;
+		cout << "2 - Remover Ingresso" << endl;
+		cout << "3 - Emitir Ingresso" << endl;
+		cin >> opcao;
+
+		switch (opcao) {
+			case 0:
+				return;
+			case 1:
+				if(v == NULL)
+					v = new Venda();
+				v->addIngressos();
+				break;
+			case 2:
+				delete(v);
+				v = NULL;
+				break;
+			case 3:
+				if(v == NULL){
+					std::cout << "Nenhum ingresso adicionado, a compra será cancelada.";
+					return;
+				}
+				v->emitirIngressos();
+				vendas.insereFim(*v);
+				return;
+			default:
+				break;
+		}
+	}
 }
 
 

@@ -23,7 +23,7 @@ public:
 	void removerIngressos();
 };
 
-Venda::Venda(){
+Venda::Venda():pgto(){
 	valorTotal = 0;
 	dtVenda = __DATE__;
 }
@@ -60,7 +60,7 @@ void Venda::addIngressos(){
 }
 
 void Venda::removerIngressos(){
-	int tipo;
+	int tipo = 0;
 	cout << "Qual tipo de ingresso voce deseja remover?" << endl;
 	cout << "1 - Inteiro" << endl << "2 - Meio" << endl;
 
