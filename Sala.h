@@ -75,11 +75,11 @@ void Sala::inserirSessao(){
 	int h, m;		//horario
 	char aux;		//auxiliar
 
-	std::cout << "Insira o nome do filme: " << std::endl;
+	std::cout << "Insira o nome do filme: ";
 	std::getline(cin, nome);
 
 	//Insere horarios do filme
-	std::cout << "Insira os horarios de inicio e fim do filme: " << std::endl;
+	std::cout << "Insira os horarios de inicio e fim do filme: ";
 	std::cin >> h >> aux >> m;
 	hora.setHoraInic(h,m);
 	std::cin >> h >> aux >> m;
@@ -127,7 +127,24 @@ void Sala::setSituacao(int sit){
 }
 
 ostream& operator<<(ostream& os, const Sala& elem){
-	os << "Sala: " << elem.numSala << " - Capacidade: " <<elem.capacidade<< " - Situacao: "<< elem.situacao;
+	string sit;
+
+	switch(elem.situacao){
+		case 0:
+			sit = "Disponivel";
+			break;
+		case 1:
+			sit = "Manutencao de Equipamento";
+			break;
+		case 2:
+			sit = "Reforma";
+			break;
+		case 3:
+			sit = "Manutencao Geral";
+			break;
+	}
+
+	os << "Sala: " << elem.numSala << " - Capacidade: " <<elem.capacidade<< " - Situacao: "<< sit;
     return os;
 }
 

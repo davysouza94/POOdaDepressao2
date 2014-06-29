@@ -17,37 +17,40 @@ public:
 	//Construtor
 	gerenciarSala();
 
-	void inserirSala();
-	void exibeSalas();
-	void situacao();
-	No<Sala>* buscarSala(int chave);
-	void ordenarSalas(); //ordena salas de acordo com o id
-	void inserirSessao();
-	void exibeSessoes();
+	void inserirSala();		//cria e insere sala na lista
+	void exibeSalas();		//exibe salas da lista
+	void situacao();		//altera situacao da sala
+	No<Sala>* buscarSala(int chave);	//busca sala na lista, de acordo com chave determinada
+	void ordenarSalas();	//ordena salas de acordo com o id
+	void inserirSessao();	//insere sessao na sala
+	void exibeSessoes();	//exibe sessoes
 };
 
 gerenciarSala::gerenciarSala():salas() {
 }
 
+//Metodo para inserir Salas
 void gerenciarSala::inserirSala() {
 
-	int num, numFileira, numAssentos;
+	int num, numFileira, numAssentos; //auxiliares
 	char opc = 'x';
-	cout << "Informe o Numero da Sala: " << endl;
+
+	//Recebe Dados da sala a ser inserida
+	cout << "Informe o Numero da Sala: ";
 	cin >> num;
-	cout << "Informe o numero de fileiras: " << endl;
+	cout << "Informe o numero de fileiras: ";
 	cin >> numFileira;
-	cout << "Informe o numero de assentos por fileira:" << endl;
+	cout << "Informe o numero de assentos por fileira: ";
 	cin >> numAssentos;
 
+	//se sala nao existe, cria uma nova e insere na lista.
 	if (salas.busca(num) == NULL) {
 		Sala temp(num, numAssentos, numFileira);
 		salas.insereFim(temp);
 		std::cout << "Sala criada com sucesso" << std::endl << std::endl;
-	} else {
+	} else {//se sala ja existe pergunta se deseja altera-la
 		while (opc != 'S' && opc != 's' && opc != 'N' && opc != 'n') {
-			std::cout << "Sala " << num << " já existe, deseja substituir?"
-					<< std::endl;
+			std::cout << "Sala " << num << "  ja existe, deseja substitui-la?"	<< std::endl;
 			std::cout << "<S/N>";
 			std::cin >> opc;
 			if (opc == 'S' || opc == 's') {
@@ -56,7 +59,7 @@ void gerenciarSala::inserirSala() {
 				salas.insereFim(temp);
 				std::cout << "Sala alterada com sucesso" << std::endl << std::endl;
 			} else if (opc == 'N' || opc == 'n') {
-				std::cout << "Sala não foi alterada" << std::endl << std::endl;
+				std::cout << "Sala nao foi alterada" << std::endl << std::endl;
 			} else {
 				std::cout << "Insira 'S' para Sim, 'N' para Nao" << endl;
 			}
@@ -64,22 +67,26 @@ void gerenciarSala::inserirSala() {
 	}
 }
 
+//Metodo para inserir sessao na sala.
 void gerenciarSala::inserirSessao(){
 	int id;
 	No<Sala> *sala;
-	std::cout << "Indique o id da sala correspondente a sessão" << std::endl;
+
+	//Recebe ID da sala
+	std::cout << "Indique o ID da sala correspondente a sessao: ";
 	std::cin >> id;
-	sala = salas.busca(id);
-	if (sala == NULL){
-		std::cout << "Sala não encontrada" << std::endl;
+	sala = salas.busca(id); //busca sala indicada
+	if (sala == NULL){ //se nao encontra sala..
+		std::cout << "Sala nao encontrada" << std::endl;
 		return;
-	}
+	}//caso encontre, insere a sessao na lista de sessoes da sala
 	sala->elem.inserirSessao();
 }
-
+//Exibe lista de Salas existentes
 void gerenciarSala::exibeSalas() {
 	salas.exibe();
 }
+//Exibe sessoes existentes
 void gerenciarSala::exibeSessoes(){
 	No<Sala> *aux;
 	aux = salas.getPl();
@@ -89,22 +96,25 @@ void gerenciarSala::exibeSessoes(){
 		aux = aux->prox;
 	}
 }
-
+//Metodo para alterar situacao da sala
 void gerenciarSala::situacao() {
 	int num, sit;
 	No<Sala> *salaEncontrada;
 
 	salas.exibe();
-	cout << "Informe o Numero da Sala: " << endl;
+	cout << "Informe o Numero da Sala: ";
 	cin >> num;
 	cout << "Informe a Situacao da Sala: " << endl;
-	cin >> sit;
+	cout << "  1 - Disponivel" << endl << "  2 - Manutencao de Equipamentos" << endl;
+	cout << "  3 - Reforma" << endl << "  4 - Manutencao Geral" << endl;
+	cout << "Situacao: ";
+	cin >> sit;	sit--;
 
-	salaEncontrada = salas.busca(num);
+	salaEncontrada = salas.busca(num); //busca sala
 	try {
 		if (salaEncontrada == NULL)
 			throw(-1);
-		(salaEncontrada->elem).setSituacao(sit);
+		(salaEncontrada->elem).setSituacao(sit); //caso encontre a sala, altera-se a situacao
 	} catch (int erro) {
 		if (erro == -1)
 			std::cout << "Sala Nao Existente" << std::endl;
