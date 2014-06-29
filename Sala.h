@@ -76,7 +76,7 @@ void Sala::inserirSessao(){
 	char aux;		//auxiliar
 
 	std::cout << "Insira o nome do filme: " << std::endl;
-	std::cin >> nome;
+	std::getline(cin, nome);
 
 	//Insere horarios do filme
 	std::cout << "Insira os horarios de inicio e fim do filme: " << std::endl;

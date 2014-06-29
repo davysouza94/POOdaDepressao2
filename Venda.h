@@ -8,6 +8,7 @@
 #include "enumpag.h"
 #include "Data.h"
 #include "gerenciarSala.h"
+#include <iomanip>
 
 class Venda{
 private:
@@ -78,9 +79,13 @@ void Venda::emitirIngressos(gerenciarSala &salas){
 	}
 
 	cout << "Filme: " << nomeFilme << endl;
-	cout << "Quantidade de Ingressos: " << endl;
+	cout << "Ingressos - Inteiro: " << ingressosInteiro << " - Meio: " << ingressosMeio << endl;
 	cout << "Valor: " << valorTotal << endl;
 	cout << "Data:" << dtVenda << endl;
+	if(pgto == 1)
+		cout << "Forma de Pagamento: Dinheiro" <<endl;
+	else if(pgto == 2)
+		cout << "Forma de Pagamento: Cartao" <<endl;
 }
 
 void Venda::addIngressos(gerenciarSala &salas){
@@ -127,7 +132,7 @@ void Venda::addIngressos(gerenciarSala &salas){
 		ingressosMeio+=qtdIng;
 	}
 	valorTotal = valorTotal + calculaValorTotal(qtdIng, tipo);
-	cout << "Valor Total: " << valorTotal << endl;
+	cout << "Valor Total: " << std::fixed << std::setprecision(2) << valorTotal << endl;
 }
 
 

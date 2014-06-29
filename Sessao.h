@@ -109,6 +109,7 @@ int Sessao::getDisponivel(){
 	return lugaresVagos;
 }
 
+//Gerencia a mudança do status dos assentos de livre para ocupado (int livre = 0/1)
 int Sessao::setDisponivel(int qt, int opc){
 	if(opc == 0){
 		No<Fileira> *aux;
@@ -126,9 +127,9 @@ int Sessao::setDisponivel(int qt, int opc){
 		}
 
 		assentoVago = aux->elem.assentos.busca(1); //retorna endereço do nó do assento disponivel
-		for(i=0;i<=qt;i++){
+		for(i=0;i<qt;i++){
 			if(assentoVago == NULL){//nao deve ocorrer
-				cout << "erro!" << endl;
+				cout << "erro!" << qt << "  " << i << "  " << aux->elem.getAssentosLivres() << endl;
 				return -1;
 			}
 			assentoVago->elem.setLivre(0);
@@ -148,7 +149,7 @@ int Sessao::setDisponivel(int qt, int opc){
 					aux = aux->prox;
 				else break;
 			}
-			if(aux == NULL){ //nao deve acontecer
+			if(aux == NULL){ //nao deve ocorrer
 				cout << "erro";
 				return -1;
 			}

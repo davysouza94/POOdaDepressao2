@@ -22,6 +22,8 @@ Alunos:
 
 //Includes necessarios
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "gerenciarSala.h"
 #include "Venda.h"
 
@@ -31,6 +33,7 @@ using namespace std;
 void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar salas
 void gerenciaSessao(gerenciarSala &salas);		//Funcao responsavel por gerenciar sessoes
 void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao responsavel por gerenciar vendas
+bool loadData(gerenciarSala &salas, Lista<Venda> &vendas);
 
 
 /* ---------------- */
@@ -41,6 +44,8 @@ int main() {
 	gerenciarSala salas;	//Objeto para gerenciamento de salas e sessoes
 	Lista <Venda> vendas;	//Lista encadeada que armazenará objetos do tipo venda
 
+	//Carrega Dados
+	loadData(salas, vendas);
 	//While para manter o programa em execução
 	int opcao = 1;
 	while (opcao != 0){
@@ -51,6 +56,7 @@ int main() {
 		cout << "  2 - Gerenciar Sessoes" << endl;
 		cout << "  3 - Gerenciar Vendas" << endl;
 		cout << "  4 - Exibir Relatorio de Vendas" << endl;
+		//cout << "  5 - Carregar Dados" << endl;
 		cout << "Opcao: ";
 		cin >> opcao;
 		cout << endl;
@@ -71,6 +77,8 @@ int main() {
 			vendas.exibe();
 			break;
 		case 5:
+			//loadData(salas, vendas);
+
 			break;
 		default:
 			break;
@@ -144,7 +152,6 @@ void gerenciaSessao(gerenciarSala &salas){
 	case 4:
 		break;
 	case 5:
-		salas.situacao();
 		break;
 	default:
 		break;
@@ -208,5 +215,47 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 	}
 }
 
+bool loadData(gerenciarSala &salas, Lista<Venda> &vendas){
+	string word;
+	//redireciona std::cin para ler do arquivo input.in
+    std::ifstream in("input.in");
+    std::streambuf *cinbuf = std::cin.rdbuf();
+    std::cin.rdbuf(in.rdbuf());
 
 
+	int opcao = 1;
+	while (opcao != 0){
+		cin >> opcao;
+		cout << endl;
+
+		switch (opcao) {
+		case 0:
+			//redireciona cin para ler entradas no console
+			std::cin.rdbuf(cinbuf);
+			cout << "------Carregando-Dados----------";
+			cout << "\n\n\n\n\n";
+			cout << "Dados carregados com sucesso" << "\n\n";
+			return 1;
+		case 1:
+			gerenciaSala(salas);
+			break;
+		case 2:
+			gerenciaSessao(salas);
+			break;
+		case 3:
+			gerenciaVenda(vendas, salas);
+			break;
+		case 4:
+			vendas.exibe();
+			break;
+		case 5:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+
+    return 1;
+}
