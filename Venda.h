@@ -5,7 +5,6 @@
 #include <string>
 #include <time.h>
 #include "Sessao.h"
-#include "Ingresso.h"
 #include "enumpag.h"
 #include "Data.h"
 #include "gerenciarSala.h"
@@ -16,8 +15,9 @@ private:
 	string nomeFilme;
 	string dtVenda;
 	double valorTotal;
+	int ingressosInteiro;
+	int ingressosMeio;
 	FormaPgto pgto;
-	Lista <Ingresso> ingressos;
 public:
 	Venda();
 	double calculaValorTotal(int qtdInteiro, int qtdMeio);
@@ -27,6 +27,8 @@ public:
 };
 
 Venda::Venda():pgto(){
+	ingressosInteiro = 0;
+	ingressosMeio = 0;
 	sessao = 0;
 	nomeFilme = " ";
 	valorTotal = 0;
@@ -77,7 +79,11 @@ void Venda::addIngressos(gerenciarSala &salas){
 
 	cout << "Escolha a quantidade de Ingressos:" << endl;
 	cin >> qtdIng;
-
+	if(tipo == 1){
+		ingressosInteiro+=qtdIng;
+	}else{
+		ingressosMeio+=qtdIng;
+	}
 	valorTotal = valorTotal + calculaValorTotal(qtdIng, tipo);
 	cout << "Valor Total: " << valorTotal << endl;
 }
@@ -87,6 +93,7 @@ ostream& operator<<(ostream& os, const Venda& elem){
 	os << "Filme: " << elem.nomeFilme << endl;
 	os << "Quantidade de Ingressos: " << endl;
 	os << "Valor: " << elem.valorTotal << endl;
+	os << "Ingressos - Inteiro: " << elem.ingressosInteiro << " - Meio: " << elem.ingressosMeio << endl;
 	os << "Data:" << elem.dtVenda << endl;
     return os;
 }
