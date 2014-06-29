@@ -27,7 +27,7 @@ gerenciarSala::gerenciarSala():salas() {
 void gerenciarSala::inserirSala() {
 
 	int num, numFileira, numAssentos;
-	char opc;
+	char opc = 'x';
 	cout << "Informe o Numero da Sala: " << endl;
 	cin >> num;
 	cout << "Informe o numero de fileiras: " << endl;
