@@ -114,7 +114,7 @@ bool Sessao::operator!=(const int num){
 
 
 ostream& operator<<(ostream& os, const Sessao& elem){
-	os << "ID da sessao: " << elem.idSessao << "ID da sala: " << elem.idSala << std::endl;
+	os << "ID da sala: " << elem.idSala << std::endl << "ID da sessão: " << elem.idSessao << std::endl;
 	os << "Filme: " << elem.filme << std::endl;
 	os << "Inicio: " << elem.inicio << " - Termino: " << elem.fim << std::endl;
 	os << "Disponibilidade: " << elem.encerrado << std::endl << std::endl;

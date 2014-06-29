@@ -52,22 +52,22 @@ void Venda::addIngressos(gerenciarSala &salas){
 	int qtdIng;
 	int idSala;
 	int idSessao;
-	Sala *salaDesejada;
-	Sessao *sessaoDesejada;
+	Sala *salaDesejada = NULL;
+	Sessao *sessaoDesejada = NULL;
 	salas.exibeSessoes();
 	std::cout << "Escolha a sala e a sessao desejada" << endl;
 	std::cin >> idSala >> idSessao;
-
+	if(salas.buscarSala(idSala) == NULL){
+		cout << "Sala nao existe!" << endl;
+		return;
+	}
 	salaDesejada = &(salas.buscarSala(idSala)->elem);
-	if(salaDesejada == NULL){
-		cout << "Sala nao encontrada";
+	if(salaDesejada->buscarSessao(idSessao) == NULL){
+		cout << "Sessao nao existe!" << endl;
 		return;
 	}
 	sessaoDesejada = &(salaDesejada->buscarSessao(idSessao)->elem);
-	if(sessaoDesejada == NULL){
-		cout << "Sessao nao encontrada";
-		return;
-	}
+
 	nomeFilme = sessaoDesejada->getFilme();
 	cout << "Filme escolhido: " << nomeFilme << endl;
 	cout << "Escolha o Tipo do Ingresso:" << endl;

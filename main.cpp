@@ -131,7 +131,11 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 			case 1:
 				if(v == NULL)
 					v = new Venda();
-				v->addIngressos(salas);
+				try{
+					v->addIngressos(salas);
+				}catch(int erro){
+					cout << "Sessao ou sala invalidas";
+				}
 				break;
 			case 2:
 				delete(v);
