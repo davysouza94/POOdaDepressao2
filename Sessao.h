@@ -4,12 +4,13 @@
 #include "Fileira.h"
 #include "Lista.h"
 #include <string>
+#include "Data.h"
 
 class Sessao{
 private:
 	int numvendido;
 	int encerrado;
-	int inicio, fim;
+	string inicio, fim;
 	string filme;
 	int idSala;
 	int idSessao;
@@ -17,11 +18,11 @@ private:
 
 public:
 	Sessao();
-	Sessao(int idsala, int idsessao, int inic, int theEnd, string nomeFilme, int qtFileira, int numAssento);
+	Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento);
 	void setStatus(int encerrado);
 	int getStatus();
-	int getInicio();
-	int getFim();
+	string getInicio();
+	string getFim();
 	int getHorario();
 	void setHorario(int hor, int min);
 	int getDisponivel();
@@ -34,15 +35,15 @@ public:
 };
 
 Sessao::Sessao(){
-	inicio = 0;
-	fim = 0;
+	//inicio = ;
+	//fim = 0;
 	idSala = 0;
 	numvendido = 0;
 	encerrado = 1;
 	idSessao = 0;
 }
 
-Sessao::Sessao(int idsala, int idsessao, int inic, int theEnd, string nomeFilme, int qtFileira, int numAssento){
+Sessao::Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento){
 	inicio = inic;
 	fim = theEnd;
 	idSala = idsala;
@@ -77,10 +78,10 @@ int Sessao::getStatus(){
 	return encerrado;
 }
 
-int Sessao::getInicio(){
+string Sessao::getInicio(){
 	return inicio;
 }
-int Sessao::getFim(){
+string Sessao::getFim(){
 	return fim;
 }
 

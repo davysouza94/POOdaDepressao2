@@ -5,6 +5,7 @@
 #include "Sessao.h"
 #include "Lista.h"
 #include <string>
+#include "Data.h"
 
 class Sala{
 private:
@@ -12,6 +13,7 @@ private:
 	int capacidade;
 	int qtFileira;
 	int qtSessoes;
+	Data hora;
 	Situacao situacao;
 	Lista < Sessao > sessoes;
 
@@ -54,11 +56,20 @@ Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
 void Sala::inserirSessao(){
 	Sessao *s, sIn;
 	string nome;
-	int inicio, fim;
+	int h, m;
+	char aux;
 	std::cout << "Insira o nome do filme: " << std::endl;
 	std::cin >> nome;
 	std::cout << "Insira o inicio e o fim do filme: " << std::endl;
-	std::cin >> inicio >> fim;
+	std::cin >> h >> aux >> m;
+	hora.setHoraInic(h,m);
+	std::cin >> h >> aux >> m;
+	hora.setHoraFim(h,m);
+	string inicio, fim;
+	inicio = hora.getHoraInic();
+	fim = hora.getHoraFim();
+
+	cout << inicio << fim;
 
 	try{
 		s = new Sessao(numSala, qtSessoes, inicio, fim, nome, 10, 10);

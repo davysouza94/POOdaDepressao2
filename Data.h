@@ -16,10 +16,10 @@ private:
 	string dtVenda;
 
 public:
-	int* getHoraInic();
+	string getHoraInic();
 	void setHoraInic(int h, int min);
 
-	int* getHoraFim();
+	string getHoraFim();
 	void setHoraFim(int h, int min);
 
 	int* getDtInic();
@@ -32,8 +32,10 @@ public:
 	void setDtVenda(string data);
 };
 
-int* Data::getHoraInic(){
-	return horaInic;
+string Data::getHoraInic(){
+	string inicio;
+	inicio = horaInic[0] + ':' + horaInic[1];
+	return inicio;
 }
 
 void Data::setHoraInic(int h, int min){
@@ -41,8 +43,10 @@ void Data::setHoraInic(int h, int min){
 	horaInic[1] = min;
 }
 
-int* Data::getHoraFim(){
-	return horaFim;
+string Data::getHoraFim(){
+	string fim;
+	fim = horaFim[0] + ':' + horaFim[1];
+	return fim;
 }
 void Data::setHoraFim(int h, int min){
 	horaFim[0] = h;

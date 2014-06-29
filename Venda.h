@@ -24,6 +24,7 @@ public:
 	void emitirIngressos(gerenciarSala &salas);
 	void addIngressos(gerenciarSala &salas);
 	friend ostream& operator<<(ostream& os, const Venda& elem);
+	void setFormPgto(int pag);
 };
 
 Venda::Venda():pgto(){
@@ -43,6 +44,10 @@ double Venda::calculaValorTotal(int qtdIng, int tipo){
 
 void Venda::emitirIngressos(gerenciarSala &salas){
 	//diminuir vagas na sessao
+	int pag;
+	cout << "Forma de pagamento" << endl;
+	cout << "1 - Dinheiro" << endl << "2 - Cartao" << endl;
+	cin >> pag;
 
 	cout << "Filme: " << nomeFilme << endl;
 	cout << "Quantidade de Ingressos: " << endl;
@@ -95,7 +100,15 @@ ostream& operator<<(ostream& os, const Venda& elem){
 	os << "Valor: " << elem.valorTotal << endl;
 	os << "Ingressos - Inteiro: " << elem.ingressosInteiro << " - Meio: " << elem.ingressosMeio << endl;
 	os << "Data:" << elem.dtVenda << endl;
+	if((int)elem.pgto == 1)
+		os << "Forma de Pagamento: Dinheiro" <<endl;
+	if((int)elem.pgto == 0)
+		os << "Forma de Pagamento: Cartao" <<endl;
     return os;
+}
+
+void Venda::setFormPgto(int pag){
+	pgto = (FormaPgto)pag;
 }
 
 #endif
