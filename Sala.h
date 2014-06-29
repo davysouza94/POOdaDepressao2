@@ -25,6 +25,7 @@ public:
 	void setCapacidade(int cap);
 	void setSituacao(int sit);
 	void inserirSessao();
+	No<Sessao>* buscarSessao(int chave);
 	void exibirSessoes();
 	friend ostream& operator<<(ostream& os, const Sala& elem);
 	bool operator==(const int num);
@@ -68,6 +69,10 @@ void Sala::inserirSessao(){
 		std::cout << "Erro" << std::endl;
 	}
 
+}
+
+No<Sessao>* Sala::buscarSessao(int chave) {
+	return sessoes.busca(chave);
 }
 
 void Sala::exibirSessoes(){

@@ -29,6 +29,8 @@ public:
 	string getFilme();
 	void setFilme(string nomeFilme);
 	friend ostream& operator<<(ostream& os, const Sessao& elem);
+	bool operator==(const int num);
+	bool operator!=(const int num);
 };
 
 Sessao::Sessao(){
@@ -97,6 +99,19 @@ string Sessao::getFilme(){
 void Sessao::setFilme(string nomeFilme){
 	filme = nomeFilme;
 }
+
+bool Sessao::operator==(const int num){
+  if(num == idSessao)
+    return true;
+  return false;
+}
+
+bool Sessao::operator!=(const int num){
+  if(num != idSessao)
+    return true;
+  return false;
+}
+
 
 ostream& operator<<(ostream& os, const Sessao& elem){
 	os << "ID da sessao: " << elem.idSessao << "ID da sala: " << elem.idSala << std::endl;

@@ -1,7 +1,7 @@
 #ifndef _VENDA_H
 #define _VENDA_H
 
-#include <iostream>
+
 #include <string>
 #include <time.h>
 #include "Sessao.h"
@@ -13,6 +13,7 @@
 class Venda{
 private:
 	int sessao;
+	string nomeFilme;
 	string dtVenda;
 	double valorTotal;
 	FormaPgto pgto;
@@ -26,6 +27,7 @@ public:
 
 Venda::Venda():pgto(){
 	sessao = 0;
+	nomeFilme = " ";
 	valorTotal = 0;
 	dtVenda = __DATE__;
 }
@@ -39,7 +41,7 @@ double Venda::calculaValorTotal(int qtdIng, int tipo){
 void Venda::emitirIngressos(gerenciarSala &salas){
 	//diminuir vagas na sessao
 
-	cout << "Sessao: x" << endl;
+	cout << "Filme: " << nomeFilme << endl;
 	cout << "Quantidade de Ingressos: " << endl;
 	cout << "Valor: " << valorTotal << endl;
 	cout << "Data:" << dtVenda << endl;
@@ -48,7 +50,26 @@ void Venda::emitirIngressos(gerenciarSala &salas){
 void Venda::addIngressos(gerenciarSala &salas){
 	int tipo;
 	int qtdIng;
-	salas.exibeSalas();
+	int idSala;
+	int idSessao;
+	Sala *salaDesejada;
+	Sessao *sessaoDesejada;
+	salas.exibeSessoes();
+	std::cout << "Escolha a sala e a sessao desejada" << endl;
+	std::cin >> idSala >> idSessao;
+
+	salaDesejada = &(salas.buscarSala(idSala)->elem);
+	if(salaDesejada == NULL){
+		cout << "Sala nao encontrada";
+		return;
+	}
+	sessaoDesejada = &(salaDesejada->buscarSessao(idSessao)->elem);
+	if(sessaoDesejada == NULL){
+		cout << "Sessao nao encontrada";
+		return;
+	}
+	nomeFilme = sessaoDesejada->getFilme();
+	cout << "Filme escolhido: " << nomeFilme << endl;
 	cout << "Escolha o Tipo do Ingresso:" << endl;
 	cout << "1 - Inteiro" << endl << "2 - Meio" << endl;
 	cin >> tipo;
