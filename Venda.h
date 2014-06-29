@@ -23,6 +23,7 @@ public:
 	double calculaValorTotal(int qtdInteiro, int qtdMeio);
 	void emitirIngressos(gerenciarSala &salas);
 	void addIngressos(gerenciarSala &salas);
+	friend ostream& operator<<(ostream& os, const Venda& elem);
 };
 
 Venda::Venda():pgto(){
@@ -79,7 +80,15 @@ void Venda::addIngressos(gerenciarSala &salas){
 
 	valorTotal = valorTotal + calculaValorTotal(qtdIng, tipo);
 	cout << "Valor Total: " << valorTotal << endl;
+}
 
+
+ostream& operator<<(ostream& os, const Venda& elem){
+	os << "Filme: " << elem.nomeFilme << endl;
+	os << "Quantidade de Ingressos: " << endl;
+	os << "Valor: " << elem.valorTotal << endl;
+	os << "Data:" << elem.dtVenda << endl;
+    return os;
 }
 
 #endif

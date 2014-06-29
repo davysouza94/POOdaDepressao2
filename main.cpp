@@ -19,7 +19,7 @@ int main() {
 		cout << "1 - Gerenciar Salas" << endl;
 		cout << "2 - Gerenciar Sessoes" << endl;
 		cout << "3 - Gerenciar Vendas" << endl;
-		cout << "4 - " << endl;
+		cout << "4 - Exibir Relatorio de Vendas" << endl;
 		cout << "5 - " << endl;
 		cin >> opcao;
 
@@ -36,6 +36,7 @@ int main() {
 			gerenciaVenda(vendas, salas);
 			break;
 		case 4:
+			vendas.exibe();
 			break;
 		case 5:
 			break;
