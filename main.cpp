@@ -5,7 +5,7 @@
 using namespace std;
 void gerenciaSala(gerenciarSala &salas);
 void gerenciaSessao(gerenciarSala &salas);
-void gerenciaVenda(Lista <Venda> &vendas);
+void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);
 
 int main() {
 	gerenciarSala salas;
@@ -33,7 +33,7 @@ int main() {
 			gerenciaSessao(salas);
 			break;
 		case 3:
-			gerenciaVenda(vendas);
+			gerenciaVenda(vendas, salas);
 			break;
 		case 4:
 			break;
@@ -113,7 +113,7 @@ void gerenciaSessao(gerenciarSala &salas){
 			}
 }
 
-void gerenciaVenda(Lista<Venda> &vendas){
+void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 	Venda *v = NULL;
 	int opcao = 0;
 
@@ -131,7 +131,7 @@ void gerenciaVenda(Lista<Venda> &vendas){
 			case 1:
 				if(v == NULL)
 					v = new Venda();
-				v->addIngressos();
+				v->addIngressos(salas);
 				break;
 			case 2:
 				delete(v);
@@ -142,7 +142,7 @@ void gerenciaVenda(Lista<Venda> &vendas){
 					std::cout << "Nenhum ingresso adicionado, a compra será cancelada.";
 					return;
 				}
-				v->emitirIngressos();
+				v->emitirIngressos(salas);
 				vendas.insereFim(*v);
 				return;
 			default:

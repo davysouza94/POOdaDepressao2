@@ -8,9 +8,11 @@
 #include "Ingresso.h"
 #include "enumpag.h"
 #include "Data.h"
+#include "gerenciarSala.h"
 
 class Venda{
 private:
+	int sessao;
 	string dtVenda;
 	double valorTotal;
 	FormaPgto pgto;
@@ -18,12 +20,12 @@ private:
 public:
 	Venda();
 	double calculaValorTotal(int qtdInteiro, int qtdMeio);
-	void emitirIngressos();
-	void addIngressos();
-	void removerIngressos();
+	void emitirIngressos(gerenciarSala &salas);
+	void addIngressos(gerenciarSala &salas);
 };
 
 Venda::Venda():pgto(){
+	sessao = 0;
 	valorTotal = 0;
 	dtVenda = __DATE__;
 }
@@ -34,7 +36,7 @@ double Venda::calculaValorTotal(int qtdIng, int tipo){
 	return qtdIng * 1.5;
 }
 
-void Venda::emitirIngressos(){
+void Venda::emitirIngressos(gerenciarSala &salas){
 	//diminuir vagas na sessao
 
 	cout << "Sessao: x" << endl;
@@ -43,14 +45,14 @@ void Venda::emitirIngressos(){
 	cout << "Data:" << dtVenda << endl;
 }
 
-void Venda::addIngressos(){
+void Venda::addIngressos(gerenciarSala &salas){
 	int tipo;
-
+	int qtdIng;
+	salas.exibeSalas();
 	cout << "Escolha o Tipo do Ingresso:" << endl;
 	cout << "1 - Inteiro" << endl << "2 - Meio" << endl;
 	cin >> tipo;
 
-	int qtdIng;
 	cout << "Escolha a quantidade de Ingressos:" << endl;
 	cin >> qtdIng;
 
@@ -59,16 +61,4 @@ void Venda::addIngressos(){
 
 }
 
-void Venda::removerIngressos(){
-	int tipo = 0;
-	cout << "Qual tipo de ingresso voce deseja remover?" << endl;
-	cout << "1 - Inteiro" << endl << "2 - Meio" << endl;
-
-	int qtdIng;
-	cout << "Escolha a quantidade de Ingressos que deseja Remover:" << endl;
-	cin >> qtdIng;
-
-	valorTotal = valorTotal - calculaValorTotal(qtdIng, tipo);
-	cout << "Valor Total: " << valorTotal << endl; 
-}
 #endif
