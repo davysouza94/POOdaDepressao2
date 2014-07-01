@@ -193,7 +193,7 @@ void Venda::loadObject(ifstream &arquivo){
 	arquivo.ignore();
 	getline(arquivo, nomeFilme);
 	arquivo >> valorTotal;
-	arquivo.ignore();
+	//arquivo.ignore();
 	getline(arquivo, dtVenda);
 
 }

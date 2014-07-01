@@ -89,8 +89,8 @@ int main() {
 		case 6:
 			//loadData(vendas, salas);
 			break;
-		case 7:
-			//loadInput(salas, vendas);
+		case 704:
+			loadInput(salas, vendas);
 			break;
 		default:
 			break;

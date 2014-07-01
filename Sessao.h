@@ -219,9 +219,9 @@ void Sessao::loadObject(ifstream &arquivo){
 	arquivo >> lugaresVagos;
 	arquivo.ignore();
 	getline(arquivo, inicio);
-	arquivo.ignore();
+	//arquivo.ignore();
 	getline(arquivo, fim);
-	arquivo.ignore();
+	//arquivo.ignore();
 	getline(arquivo, filme);
 	arquivo >> idSala;
 	arquivo >> idSessao;
