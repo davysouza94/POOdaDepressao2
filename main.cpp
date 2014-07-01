@@ -33,9 +33,9 @@ using namespace std;
 void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar salas
 void gerenciaSessao(gerenciarSala &salas);		//Funcao responsavel por gerenciar sessoes
 void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao responsavel por gerenciar vendas
-bool loadData(gerenciarSala &salas, Lista<Venda> &vendas);
+bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas);
 void saveData(Lista <Venda> &vendas, gerenciarSala &salas);
-void load(Lista<Venda> &vendas, gerenciarSala &salas);
+void loadData(Lista<Venda> &vendas, gerenciarSala &salas);
 
 /* ---------------- */
 /* ROTINA PRINCIPAL */
@@ -47,7 +47,7 @@ int main() {
 
 
 	//Carrega Dados
-	//loadData(salas, vendas);
+	loadData(vendas, salas);
 	//While para manter o programa em execução
 	int opcao = 1;
 	while (opcao != 0){
@@ -58,9 +58,9 @@ int main() {
 		cout << "  2 - Gerenciar Sessoes" << endl;
 		cout << "  3 - Gerenciar Vendas" << endl;
 		cout << "  4 - Exibir Relatorio de Vendas" << endl;
-		cout << " 5 - save" << endl;
-		cout << "6 - load" << endl;
-		cout << "7 - loadInput" << endl;
+		//cout << "  5 - save" << endl;
+		//cout << "  6 - load" << endl;
+		//cout << "  7 - loadInput" << endl;
 		//cout << "  5 - Carregar Dados" << endl;
 		cout << "Opcao: ";
 		cin >> opcao;
@@ -68,6 +68,8 @@ int main() {
 
 		switch (opcao) {
 		case 0:
+			saveData(vendas, salas);
+			cout << "Programa Finalizado" << endl;
 			return 0;
 		case 1:
 			gerenciaSala(salas);
@@ -82,13 +84,13 @@ int main() {
 			vendas.exibe();
 			break;
 		case 5:
-			saveData(vendas, salas);
+			//saveData(vendas, salas);
 			break;
 		case 6:
-			load(vendas, salas);
+			//loadData(vendas, salas);
 			break;
 		case 7:
-			loadData(salas, vendas);
+			//loadInput(salas, vendas);
 			break;
 		default:
 			break;
@@ -225,7 +227,7 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 	}
 }
 
-bool loadData(gerenciarSala &salas, Lista<Venda> &vendas){
+bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas){
 	string word;
 	//redireciona std::cin para ler do arquivo input.in
     std::ifstream in("input.in");
@@ -275,7 +277,7 @@ bool loadData(gerenciarSala &salas, Lista<Venda> &vendas){
 
 void saveData(Lista <Venda> &vendas, gerenciarSala &salas){
 	ofstream arquivo;
-	std::cout << "salvando" << std::endl;
+	std::cout << "Salvando Dados..." << std::endl;
 	arquivo.open("save.txt");
 	try{
 		salas.saveObject(arquivo);
@@ -284,14 +286,16 @@ void saveData(Lista <Venda> &vendas, gerenciarSala &salas){
 		cout << "BLEH";
 	}
 	arquivo.close();
+	std::cout << "Dados Salvos Com Sucesso!" << std::endl;
 }
 
-void load(Lista<Venda> &vendas, gerenciarSala &salas){
+void loadData(Lista<Venda> &vendas, gerenciarSala &salas){
 	ifstream arquivo;
-	std::cout << "loading..." << std::endl;
+	std::cout << "Carregando Dados..." << std::endl;
 	arquivo.open("save.txt");
 	salas.loadObject(arquivo);
 	vendas.loadData(arquivo);
+	std::cout << "Dados Carregados Com Sucesso!" << std::endl;
 	arquivo.close();
 }
 

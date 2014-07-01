@@ -188,19 +188,13 @@ void Venda::saveObject(ofstream &arquivo){
 
 void Venda::loadObject(ifstream &arquivo){
 	arquivo >> idSessao;
-	cout << idSessao << " - 1" << endl;
 	arquivo >> ingressosInteiro;
-	cout << ingressosInteiro << " - 2" << endl;
 	arquivo >> ingressosMeio;
-	cout << ingressosMeio << " - 3" << endl;
 	arquivo.ignore();
 	getline(arquivo, nomeFilme);
-	cout << nomeFilme << " - 4" << endl;
 	arquivo >> valorTotal;
-	cout << valorTotal << " - 5" << endl;
 	arquivo.ignore();
 	getline(arquivo, dtVenda);
-	cout << dtVenda << " - 6" << endl;
 
 }
 #endif

@@ -227,7 +227,6 @@ void Lista<Tinfo>::saveData(ofstream &arquivo){
 		aux->elem.saveObject(arquivo);
 		aux = aux->prox;
 	}
-	cout << qtElem;
 }
 
 template<class Tinfo>
@@ -242,7 +241,6 @@ void Lista<Tinfo>::loadData(ifstream &arquivo){
 	pl = aux;
 
 	for(i=1;i<qtElem;i++){
-		std::cout << "a" << qtElem << endl;
 		aux->prox = new No<Tinfo>;
 		aux = aux->prox;
 		aux->elem.loadObject(arquivo);
