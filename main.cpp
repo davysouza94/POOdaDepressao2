@@ -279,12 +279,8 @@ void saveData(Lista <Venda> &vendas, gerenciarSala &salas){
 	ofstream arquivo;
 	std::cout << "Salvando Dados..." << std::endl;
 	arquivo.open("save.txt");
-	try{
-		salas.saveObject(arquivo);
-		vendas.saveData(arquivo);
-	}catch(...){
-		cout << "BLEH";
-	}
+	salas.saveObject(arquivo);
+	vendas.saveData(arquivo);
 	arquivo.close();
 	std::cout << "Dados Salvos Com Sucesso!" << std::endl;
 }
