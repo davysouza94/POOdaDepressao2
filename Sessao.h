@@ -19,6 +19,7 @@ private:
 	int idSessao;			//identificador da Sessao
 	Lista <Fileira> fileiras;  //Lista de objetos do tipo fileiras
 
+
 public:
 //Metodos
 
@@ -38,6 +39,9 @@ public:
 	void setNumVendido(int numVendido);
 	string getFilme();
 	void setFilme(string nomeFilme);
+
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
 
 	//Operadores sobrecarregados
 	friend ostream& operator<<(ostream& os, const Sessao& elem);
@@ -197,6 +201,30 @@ ostream& operator<<(ostream& os, const Sessao& elem){
 	os << "Inicio: " << elem.inicio << " - Termino: " << elem.fim << std::endl;
 	os << "Disponibilidade: " << elem.lugaresVagos << std::endl;
     return os;
+}
+
+void Sessao::saveObject(ofstream &arquivo){
+	fileiras.saveData(arquivo);
+	arquivo << numvendido << "\n";
+	arquivo << lugaresVagos << "\n";
+	arquivo << inicio << "\n" << fim << "\n";
+	arquivo << filme << "\n";
+	arquivo << idSala << "\n";
+	arquivo << idSessao << "\n";
+
+}
+void Sessao::loadObject(ifstream &arquivo){
+	fileiras.loadData(arquivo);
+	arquivo >> numvendido;
+	arquivo >> lugaresVagos;
+	arquivo.ignore();
+	getline(arquivo, inicio);
+	arquivo.ignore();
+	getline(arquivo, fim);
+	arquivo.ignore();
+	getline(arquivo, filme);
+	arquivo >> idSala;
+	arquivo >> idSessao;
 }
 
 

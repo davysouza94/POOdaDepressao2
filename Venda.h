@@ -14,7 +14,7 @@
 class Venda{
 private:
 //Atributos
-	int sessao;					//ID da sessao
+	int idSessao;					//ID da sessao
 	string nomeFilme;			//Nome do filme
 	string dtVenda;				//Data da venda
 	double valorTotal;			//Valor Total da Venda
@@ -23,6 +23,7 @@ private:
 	FormaPgto pgto;				//enum forma de pagamento
 	Sala *salaDesejada;			//ponteiro para sala desejada
 	Sessao *sessaoDesejada;		//ponteiro para sessao desejada
+
 
 public:
 //Metodos
@@ -36,6 +37,8 @@ public:
 	//Sobrecarga de Operador
 	friend ostream& operator<<(ostream& os, const Venda& elem);
 
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
 	//SET
 	void setFormPgto(int pag);
 
@@ -53,7 +56,7 @@ Venda::Venda():pgto(){
 	sessaoDesejada = NULL;
 	ingressosInteiro = 0;
 	ingressosMeio = 0;
-	sessao = 0;
+	idSessao = 0;
 	nomeFilme = " ";
 	valorTotal = 0;
 	dtVenda = __DATE__;
@@ -174,4 +177,30 @@ void Venda::setFormPgto(int pag){
 	pgto = (FormaPgto)pag;
 }
 
+void Venda::saveObject(ofstream &arquivo){
+	arquivo << idSessao << "\n";
+	arquivo << ingressosInteiro << "\n";
+	arquivo << ingressosMeio << "\n";
+	arquivo << nomeFilme << "\n";
+	arquivo << valorTotal << "\n";
+	arquivo << dtVenda << "\n";
+}
+
+void Venda::loadObject(ifstream &arquivo){
+	arquivo >> idSessao;
+	cout << idSessao << " - 1" << endl;
+	arquivo >> ingressosInteiro;
+	cout << ingressosInteiro << " - 2" << endl;
+	arquivo >> ingressosMeio;
+	cout << ingressosMeio << " - 3" << endl;
+	arquivo.ignore();
+	getline(arquivo, nomeFilme);
+	cout << nomeFilme << " - 4" << endl;
+	arquivo >> valorTotal;
+	cout << valorTotal << " - 5" << endl;
+	arquivo.ignore();
+	getline(arquivo, dtVenda);
+	cout << dtVenda << " - 6" << endl;
+
+}
 #endif

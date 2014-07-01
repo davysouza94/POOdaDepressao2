@@ -23,6 +23,8 @@ public:
 
 	//Operador sobrecarregado
 	bool operator==(const int num);
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
 };
 
 Assento::Assento(){
@@ -56,4 +58,15 @@ bool Assento::operator==(const int num){
   return false;
 }
 
+void Assento::saveObject(ofstream &arquivo){
+	arquivo << idAssento << "\n";
+	arquivo << livre << "\n";
+	arquivo << idFileira << "\n";
+}
+
+void Assento::loadObject(ifstream &arquivo){
+	arquivo >> idAssento;
+	arquivo >> livre;
+	arquivo >> idFileira;
+}
 #endif

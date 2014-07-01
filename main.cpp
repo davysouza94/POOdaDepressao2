@@ -11,12 +11,12 @@ Projeto Integrado - ED1 e POO
  
 * ================================================================== *
  
-Alunos: 
-		Bruno Henrique Pereira, 
-		Caio
-		Davy Alves de Souza, 552658
-		Guilherme Augusto Moreira Baldissera, 
-		Gustavo Eugenio Oliveira Munhoz, 
+Alunos: Bruno Henrique Pereira  				552097  
+		Caio Henrique Rainha Cones				511277  
+		Davy Alves de Souza 					552658 
+		Guilherme Augusto Moreira Baldissera 	552232 
+		Gustavo Eugênio Oliveira Munhoz 		552623 
+
  
 * ================================================================== */
 
@@ -34,7 +34,8 @@ void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar sal
 void gerenciaSessao(gerenciarSala &salas);		//Funcao responsavel por gerenciar sessoes
 void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao responsavel por gerenciar vendas
 bool loadData(gerenciarSala &salas, Lista<Venda> &vendas);
-
+void saveData(Lista <Venda> &vendas, gerenciarSala &salas);
+void load(Lista<Venda> &vendas, gerenciarSala &salas);
 
 /* ---------------- */
 /* ROTINA PRINCIPAL */
@@ -44,8 +45,9 @@ int main() {
 	gerenciarSala salas;	//Objeto para gerenciamento de salas e sessoes
 	Lista <Venda> vendas;	//Lista encadeada que armazenará objetos do tipo venda
 
+
 	//Carrega Dados
-	loadData(salas, vendas);
+	//loadData(salas, vendas);
 	//While para manter o programa em execução
 	int opcao = 1;
 	while (opcao != 0){
@@ -56,6 +58,9 @@ int main() {
 		cout << "  2 - Gerenciar Sessoes" << endl;
 		cout << "  3 - Gerenciar Vendas" << endl;
 		cout << "  4 - Exibir Relatorio de Vendas" << endl;
+		cout << " 5 - save" << endl;
+		cout << "6 - load" << endl;
+		cout << "7 - loadInput" << endl;
 		//cout << "  5 - Carregar Dados" << endl;
 		cout << "Opcao: ";
 		cin >> opcao;
@@ -77,8 +82,13 @@ int main() {
 			vendas.exibe();
 			break;
 		case 5:
-			//loadData(salas, vendas);
-
+			saveData(vendas, salas);
+			break;
+		case 6:
+			load(vendas, salas);
+			break;
+		case 7:
+			loadData(salas, vendas);
 			break;
 		default:
 			break;
@@ -259,3 +269,42 @@ bool loadData(gerenciarSala &salas, Lista<Venda> &vendas){
 
     return 1;
 }
+
+
+
+
+void saveData(Lista <Venda> &vendas, gerenciarSala &salas){
+	ofstream arquivo;
+	std::cout << "salvando" << std::endl;
+	arquivo.open("save.txt");
+	try{
+		salas.saveObject(arquivo);
+		vendas.saveData(arquivo);
+	}catch(...){
+		cout << "BLEH";
+	}
+	arquivo.close();
+}
+
+void load(Lista<Venda> &vendas, gerenciarSala &salas){
+	ifstream arquivo;
+	std::cout << "loading..." << std::endl;
+	arquivo.open("save.txt");
+	salas.loadObject(arquivo);
+	vendas.loadData(arquivo);
+	arquivo.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

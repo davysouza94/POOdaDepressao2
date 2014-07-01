@@ -24,7 +24,8 @@ public:
 
 	int insereAssento();	  //Insere o assento na lista de assentos - chamado no construtor
 	int getAssentosLivres();  //Obtem quntidade de assentos livres
-
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
 
 };
 
@@ -62,5 +63,16 @@ int Fileira::getAssentosLivres(){
 		aux = aux->prox;
 	}
 	return disponiveis;
+}
+
+void Fileira::saveObject(ofstream &arquivo){
+	assentos.saveData(arquivo);
+	arquivo << idFileira << "\n";
+	arquivo << numAssentos << "\n";
+}
+void Fileira::loadObject(ifstream &arquivo){
+	assentos.loadData(arquivo);
+	arquivo >> idFileira;
+	arquivo >> numAssentos;
 }
 #endif

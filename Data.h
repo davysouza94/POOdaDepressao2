@@ -29,6 +29,9 @@ public:
 	void setDtFim(int dia, int mes, int ano);
 	string getDtVenda();
 	void setDtVenda(string data);
+
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
 };
 
 string Data::getHoraInic(){
@@ -78,6 +81,15 @@ string Data::getDtVenda(){
 }
 void Data::setDtVenda(string data){
 	dtVenda = data;
+}
+
+void Data::saveObject(ofstream &arquivo){
+	arquivo << dtFim[0] << "\n";
+	arquivo << dtFim[1] << "\n";
+	arquivo << dtFim[2] << "\n";
+}
+void Data::loadObject(ifstream &arquivo){
+	arquivo >> dtFim[0] >> dtFim[1] >> dtFim[2];
 }
 
 #endif

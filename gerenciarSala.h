@@ -24,6 +24,10 @@ public:
 	void ordenarSalas();	//ordena salas de acordo com o id
 	void inserirSessao();	//insere sessao na sala
 	void exibeSessoes();	//exibe sessoes
+
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
+
 };
 
 gerenciarSala::gerenciarSala():salas() {
@@ -128,4 +132,12 @@ No<Sala>* gerenciarSala::buscarSala(int chave) {
 void gerenciarSala::ordenarSalas(){
 	salas.ordena();
 }
+
+void gerenciarSala::saveObject(ofstream &arquivo){
+	salas.saveData(arquivo);
+}
+void gerenciarSala::loadObject(ifstream &arquivo){
+	salas.loadData(arquivo);
+}
+
 #endif

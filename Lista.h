@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "No.h"
 using namespace std;
 
@@ -23,6 +24,8 @@ public:
 	void ordena();
 	No<Tinfo>* busca(int chave);
 	No<Tinfo>* getPl();
+	void saveData(ofstream &arquivo);
+	void loadData(ifstream &arquivo);
 private:
 	No<Tinfo> *pl;
 };
@@ -208,7 +211,43 @@ No<Tinfo>* Lista<Tinfo>::getPl(){
 	return pl;
 }
 
+template <class Tinfo>
+void Lista<Tinfo>::saveData(ofstream &arquivo){
+	No<Tinfo> *aux;
+	int qtElem = 0;
+	aux = pl;
+	while(aux!=NULL){
+		qtElem++;
+		aux = aux->prox;
+	}
+	aux = pl;
+	arquivo << qtElem;
+	arquivo << " ";
+	while(aux!=NULL){
+		aux->elem.saveObject(arquivo);
+		aux = aux->prox;
+	}
+	cout << qtElem;
+}
 
+template<class Tinfo>
+void Lista<Tinfo>::loadData(ifstream &arquivo){
+	No<Tinfo> *aux;
+	int qtElem;
+	int i;
+	arquivo >> qtElem;
+	aux = new No<Tinfo>;
 
+	aux->elem.loadObject(arquivo);
+	pl = aux;
+
+	for(i=1;i<qtElem;i++){
+		std::cout << "a" << qtElem << endl;
+		aux->prox = new No<Tinfo>;
+		aux = aux->prox;
+		aux->elem.loadObject(arquivo);
+		aux->prox=NULL;
+	}
+}
 
 #endif

@@ -22,7 +22,10 @@ public:
 	void exibe();
 };
 
-
+template <class Tinfo>
+No<Tinfo>::No():elem(){
+	prox = NULL;
+}
 template <class Tinfo>
 No<Tinfo>::No(Tinfo e){
 	elem = e;

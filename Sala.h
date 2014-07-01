@@ -49,6 +49,10 @@ public:
 	bool operator>(const Sala elem);
 	bool operator<(const int num);
 	bool operator<(const Sala elem);
+
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
+
 };
 //construtor padrao
 Sala::Sala():sessoes(){
@@ -74,8 +78,8 @@ void Sala::inserirSessao(){
 	string nome;	//nome do filme
 	int h, m;		//horario
 	char aux;		//auxiliar
-
-	std::cout << "Insira o nome do filme: ";
+	cin.ignore();
+	std::cout << "Insira o nome do filme: " << std::endl;
 	std::getline(cin, nome);
 
 	//Insere horarios do filme
@@ -182,6 +186,56 @@ bool Sala::operator<(const Sala elem){
   if(numSala < elem.numSala)
     return true;
   return false;
+}
+
+
+void Sala::saveObject(ofstream &arquivo){
+	sessoes.saveData(arquivo);
+	arquivo << numSala << "\n";
+	arquivo << capacidade << "\n";
+	arquivo << qtFileiras << "\n";
+	arquivo << qtAssentos << "\n";
+	arquivo << qtSessoes << "\n";
+	hora.saveObject(arquivo);
+	switch(situacao){
+	case disponivel:
+		arquivo << "0" << "\n";
+		break;
+	case manuEquipamento:
+		arquivo << "1" << "\n";
+		break;
+	case reforma:
+		arquivo << "2" << "\n";
+		break;
+	case manuGeral:
+		arquivo << "3" << "\n";
+		break;
+	}
+}
+void Sala::loadObject(ifstream &arquivo){
+	int opc;
+	sessoes.loadData(arquivo);
+	arquivo >> numSala;
+	arquivo >> capacidade;
+	arquivo >> qtFileiras;
+	arquivo >> qtAssentos;
+	arquivo >> qtSessoes;
+	hora.loadObject(arquivo);
+	arquivo >> opc;
+	switch(opc){
+	case 0:
+		situacao = disponivel;
+		break;
+	case 1:
+		situacao = manuEquipamento;
+		break;
+	case 2:
+		situacao = reforma;
+		break;
+	case 3:
+		situacao = manuGeral;
+		break;
+	}
 }
 
 #endif
