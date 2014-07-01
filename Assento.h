@@ -36,7 +36,6 @@ Assento::Assento(int assento,int idfila){
 	idAssento = assento;
 	livre = 1;
 	idFileira = idfila;
-	std::cout <<"CriandoAssento" << idAssento << "-" << idFileira << "-" << std::endl;
 
 }
 Assento::~Assento(){

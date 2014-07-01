@@ -38,7 +38,6 @@ Fileira::Fileira(int n,char idfila){
 	numAssentos = n;
 	disponiveis = n;
 	idFileira = idfila;
-	cout << "CriandoFila - " << idfila << std::endl;
 	int i;
 	Assento *a, aIn;
 	for(i=0;i<numAssentos;i++){

@@ -32,10 +32,9 @@ using namespace std;
 #include<string>
 
 //Declarando Funcoes
-void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar salas
-void gerenciaSessao(gerenciarSala &salas);		//Funcao responsavel por gerenciar sessoes
-void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao responsavel por gerenciar vendas
-bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas);
+void gerenciaSala(gerenciarSala &salas, Lista<Filme> &filmes);		//Funcao responsavel por gerenciar salas
+void gerenciaSessao(gerenciarSala &salas, Lista<Filme> &filmes);		//Funcao responsavel por gerenciar sessoes
+void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes);  //Funcao responsavel por gerenciar vendas
 void saveData(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes);
 void loadData(Lista<Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes);
 void gerenciaFilme(Lista<Filme> &filmes);
@@ -60,13 +59,9 @@ int main() {
 		cout << "  0 - Finalizar Programa" << endl;
 		cout << "  1 - Gerenciar Salas" << endl;
 		cout << "  2 - Gerenciar Sessoes" << endl;
-		cout << "  3 - Gerenciar Vendas" << endl;
-		cout << "  4 - Gerenciar Filmes" << endl;
+		cout << "  3 - Gerenciar Filmes" << endl;
+		cout << "  4 - Gerenciar Vendas" << endl;
 		cout << "  5 - Exibir Relatorio de Vendas" << endl;
-		//cout << "  5 - save" << endl;
-		//cout << "  6 - load" << endl;
-		//cout << "  7 - loadInput" << endl;
-		//cout << "  5 - Carregar Dados" << endl;
 		cout << "Opcao: ";
 		cin >> opcao;
 		cout << endl;
@@ -77,23 +72,21 @@ int main() {
 			cout << "Programa Finalizado" << endl;
 			return 0;
 		case 1:
-			gerenciaSala(salas);
+			gerenciaSala(salas, filmes);
 			break;
 		case 2:
-			gerenciaSessao(salas);
+			gerenciaSessao(salas, filmes);
 			break;
 		case 3:
-			gerenciaVenda(vendas, salas);
+			gerenciaFilme(filmes);
 			break;
 		case 4:
-			gerenciaFilme(filmes);
+			gerenciaVenda(vendas, salas, filmes);
 			break;
 		case 5:
 			vendas.exibe();
 			break;
 		case 6:
-			break;
-		case 704:
 			break;
 		default:
 			break;
@@ -102,21 +95,20 @@ int main() {
 }
 
 /*Funcao Responsavel pelo gerenciamento das Salas*/
-void gerenciaSala(gerenciarSala &salas){
+void gerenciaSala(gerenciarSala &salas, Lista<Filme> &filmes){
 
 	//Switch para menu de Gerenciamento de Salas
 	int opcao = 0;
+
 	cout << "Escolha uma das opcoes: " << endl;
 	cout << "  0 - Voltar" << endl;
 	cout << "  1 - Criar Sala" << endl;
-	cout << "  2 - Set Situacao" << endl;
-	cout << "  3 - Exibir Salas" << endl;
-	cout << "  4 - Capacidade" << endl;
-	cout << "  5 - Situacao" << endl;
+	cout << "  2 - Exibe Salas" << endl;
+	cout << "  3 - Remove Sala" << endl;
+	cout << "  4 - Mudar Situacao" << endl;
 	cout << "Opcao: ";
 	cin >> opcao;
 	cout << endl;
-
 	switch (opcao) {
 	case 0:
 		return;
@@ -125,15 +117,14 @@ void gerenciaSala(gerenciarSala &salas){
 		salas.ordenarSalas();
 		break;
 	case 2:
-		salas.situacao();
-		break;
-	case 3:
 		salas.exibeSalas();
 		break;
-	case 4:
+	case 3:
+		salas.removeSala();
 		break;
-	case 5:
+	case 4:
 		salas.situacao();
+		break;
 		break;
 	default:
 		break;
@@ -141,7 +132,7 @@ void gerenciaSala(gerenciarSala &salas){
 }
 
 /*Funcao Responsavel pelo gerenciamento das Sessoes*/
-void gerenciaSessao(gerenciarSala &salas){
+void gerenciaSessao(gerenciarSala &salas, Lista<Filme> &filmes){
 
 	//Switch para menu de Gerenciamento de Sessoes
 	int opcao = 0;
@@ -149,6 +140,7 @@ void gerenciaSessao(gerenciarSala &salas){
 	cout << "  0 - Voltar" << endl;
 	cout << "  1 - Inserir Sessão" << endl;
 	cout << "  2 - Exibir Sessoes" << endl;
+	cout << "  3 - Remover Sessão" << endl;
 	cout << "Opcao: ";
 	cin >> opcao;
 	cout << endl;
@@ -158,12 +150,13 @@ void gerenciaSessao(gerenciarSala &salas){
 		return;
 	case 1:
 		salas.exibeSalas();
-		salas.inserirSessao();
+		salas.inserirSessao(filmes);
 		break;
 	case 2:
 		salas.exibeSessoes();
 		break;
 	case 3:
+		salas.removeSessao();
 		break;
 	case 4:
 		break;
@@ -220,7 +213,7 @@ void gerenciaFilme(Lista<Filme> &filmes){
 
 }
 
-void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
+void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes){
 	Venda *v = NULL; //Ponteiro auxiliar do tipo venda
 	
 	//While para menu de Gerenciamento de Salas
@@ -276,50 +269,6 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 	}
 }
 
-bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas){
-	string word;
-	//redireciona std::cin para ler do arquivo input.in
-    std::ifstream in("input.in");
-    std::streambuf *cinbuf = std::cin.rdbuf();
-    std::cin.rdbuf(in.rdbuf());
-
-
-	int opcao = 1;
-	while (opcao != 0){
-		cin >> opcao;
-		cout << endl;
-
-		switch (opcao) {
-		case 0:
-			//redireciona cin para ler entradas no console
-			std::cin.rdbuf(cinbuf);
-			cout << "------Carregando-Dados----------";
-			cout << "\n\n\n\n\n";
-			cout << "Dados carregados com sucesso" << "\n\n";
-			return 1;
-		case 1:
-			gerenciaSala(salas);
-			break;
-		case 2:
-			gerenciaSessao(salas);
-			break;
-		case 3:
-			gerenciaVenda(vendas, salas);
-			break;
-		case 4:
-			vendas.exibe();
-			break;
-		case 5:
-			break;
-		default:
-			break;
-		}
-	}
-
-
-
-    return 1;
-}
 
 void saveData(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes){
 	ofstream arquivo;

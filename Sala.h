@@ -6,7 +6,7 @@
 #include "Sessao.h"
 #include "Lista.h"
 #include <string>
-#include "Data.h"
+#include "Filme.h"
 
 
 /* CLASSE SALA */
@@ -17,7 +17,6 @@ private:
 	int capacidade;		//Capacidade
 	int qtFileiras;		//Quantidade de Fileiras
 	int qtAssentos;		//Quantidade de Assentos
-	Data hora;			//Horario da Sessao (Inicio e Termino)
 	Situacao situacao;	//enum Situacao, que indica o estado da sala
 	Lista < Sessao > sessoes;  //Lista para objetos do tipo Sessao
 
@@ -34,9 +33,9 @@ public:
 	void setNumSala(int nSala);
 	void setCapacidade(int cap);
 	void setSituacao(int sit);
-	void inserirSessao();
+	void inserirSessao(Lista<Filme> &filmes);
 	void setId(int id);
-
+	void removeSessao();
 	//Metodos Gerais
 	No<Sessao>* buscarSessao(int chave);  //Busca Sessao na lista de sessoes, de acordo com a chave Inserida
 	void exibirSessoes();  //Exibe Lista de sessoes
@@ -71,27 +70,30 @@ Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
 	situacao = disponivel;
 }
 //Metodo para inserir sessao na lista de sessoes pertencentes a sala
-void Sala::inserirSessao(){
+void Sala::inserirSessao(Lista<Filme> &filmes){
+	string horario;
+	No<Filme> *f;
 	Sessao *s, sIn; //auxiliares
 	string nome;	//nome do filme
-	int h, m;		//horario
-	char aux;		//auxiliar
+	int id;
 	cin.ignore();
-	std::cout << "Insira o nome do filme: " << std::endl;
-	std::getline(cin, nome);
-
+	filmes.exibe();
+	std::cout << "Insira o Id do Filme: " << std::endl;
+	cin >> id;
+	f = filmes.busca(id);
+	if(f == NULL){
+		cout << "O id não existe" << endl;
+		return;
+	}
+	nome = f->elem.getFilme();
 	//Insere horarios do filme
-	std::cout << "Insira os horarios de inicio e fim do filme: ";
-	std::cin >> h >> aux >> m;
-	hora.setHoraInic(h,m);
-	std::cin >> h >> aux >> m;
-	hora.setHoraFim(h,m);
+	std::cout << "Insira o horario do inicio e fim do filme: ";
+	cin.ignore();
+	getline(cin, horario);
 	string inicio, fim;
-	inicio = hora.getHoraInic();
-	fim = hora.getHoraFim();
 
 	try{//Tratamento de erro para inserir sessao
-		s = new Sessao(numSala, inicio, fim, nome, qtFileiras, qtAssentos);
+		s = new Sessao(numSala, horario, nome, qtFileiras, qtAssentos);
 		sIn = *s;
 		sessoes.insereFim(sIn);
 	}catch(...){
@@ -100,6 +102,16 @@ void Sala::inserirSessao(){
 	sessoes.junta();
 }
 
+void Sala::removeSessao(){
+	int id;
+	cout << "Digite o id da sessao:" << endl;
+	cin >> id;
+	if(sessoes.deletaValor(id)){
+		cout << "Sessao removida." << endl;
+		return;
+	}
+	cout << "Sessao não encontrada" << endl;
+}
 No<Sessao>* Sala::buscarSessao(int chave) {
 	return sessoes.busca(chave);
 }
@@ -107,6 +119,7 @@ No<Sessao>* Sala::buscarSessao(int chave) {
 void Sala::exibirSessoes(){
 	sessoes.exibe();
 }
+
 int Sala::getNumSala(){
 	return numSala;
 }
@@ -192,7 +205,6 @@ void Sala::saveObject(ofstream &arquivo){
 	arquivo << capacidade << "\n";
 	arquivo << qtFileiras << "\n";
 	arquivo << qtAssentos << "\n";
-	hora.saveObject(arquivo);
 	switch(situacao){
 	case disponivel:
 		arquivo << "0" << "\n";
@@ -215,7 +227,6 @@ void Sala::loadObject(ifstream &arquivo){
 	arquivo >> capacidade;
 	arquivo >> qtFileiras;
 	arquivo >> qtAssentos;
-	hora.loadObject(arquivo);
 	arquivo >> opc;
 	switch(opc){
 	case 0:

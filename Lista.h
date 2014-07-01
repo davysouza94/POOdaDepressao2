@@ -149,6 +149,7 @@ bool Lista<Tinfo>::deletaValor(int info){
 		auxDel = auxIt->prox;
 		auxIt->prox = auxIt->prox->prox;
 		delete(auxDel);
+		return 1;
 	}
 	return 0;
 }
@@ -183,8 +184,6 @@ No<Tinfo>* Lista<Tinfo>::busca(int chave){
 	}
 	return NULL;
 }
-
-
 
 template <class Tinfo>
 void Lista<Tinfo>::ordena(){

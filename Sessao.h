@@ -5,7 +5,6 @@
 #include "Fileira.h"
 #include "Lista.h"
 #include <string>
-#include "Data.h"
 
 /* CLASSE SESSAO */
 class Sessao{
@@ -13,7 +12,7 @@ private:
 //Atributos
 	int numvendido;			//igressos vendidos
 	int lugaresVagos;		//lugares vagos
-	string inicio, fim;		//armazena horarios do filme (Inicio e termino)
+	string horarioFilme;	//armazena horarios do filme (Inicio e termino)
 	string filme;			//armazena nome do filme
 	int idSala;				//identificador da Sala
 	int idSessao;			//identificador da Sessao
@@ -25,13 +24,11 @@ public:
 
 	//Construtores
 	Sessao();
-	Sessao(int idsala, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento);
+	Sessao(int idsala, string horario, string nomeFilme, int qtFileira, int numAssento);
 
 	//Metodos Gerais
 	void setStatus(int encerrado);
 	int getStatus();
-	string getInicio();
-	string getFim();
 	int getHorario();
 	void setHorario(int hor, int min);
 	int getDisponivel();
@@ -52,8 +49,6 @@ public:
 
 //Construtor Padrao, inicializa com 'zero' os atributos de sessao
 Sessao::Sessao(){
-	inicio = " ";
-	fim = " ";
 	idSala = 0;
 	numvendido = 0;
 	lugaresVagos = 1;
@@ -61,9 +56,8 @@ Sessao::Sessao(){
 }
 
 
-Sessao::Sessao(int idsala, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento){
-	inicio = inic;
-	fim = theEnd;
+Sessao::Sessao(int idsala, string horario, string nomeFilme, int qtFileira, int numAssento){
+	horarioFilme = horario;
 	idSala = idsala;
 	numvendido = 0;
 	lugaresVagos = 1;
@@ -96,13 +90,6 @@ int Sessao::getStatus(){
 	return lugaresVagos;
 }
 
-string Sessao::getInicio(){
-	return inicio;
-}
-string Sessao::getFim(){
-	return fim;
-}
-
 int Sessao::getDisponivel(){
 	No<Fileira> *aux;
 	lugaresVagos=0;
@@ -129,7 +116,7 @@ int Sessao::setDisponivel(int qt, int opc){
 			else break;
 		}
 		if(aux == NULL){ //retorna 0 se nao encontrou lugares adjacentes
-			getDisponivel();
+			getDisponivel(); //atualiza disponibilidade
 			return 0;
 		}
 
@@ -166,7 +153,7 @@ int Sessao::setDisponivel(int qt, int opc){
 				assentoVago = assentoVago->prox;
 				i++;
 			}
-			getDisponivel();
+			getDisponivel();//atualiza disponibilidade
 		}
 
 
@@ -202,7 +189,7 @@ bool Sessao::operator!=(const int num){
 ostream& operator<<(ostream& os, const Sessao& elem){
 	os << "ID da sala: " << elem.idSala << std::endl << "ID da sessao: " << elem.idSessao << std::endl;
 	os << "Filme: " << elem.filme << std::endl;
-	os << "Inicio: " << elem.inicio << " - Termino: " << elem.fim << std::endl;
+	os << "Horario: " << elem.horarioFilme << std::endl;
 	os << "Disponibilidade: " << elem.lugaresVagos << std::endl;
     return os;
 }
@@ -211,7 +198,7 @@ void Sessao::saveObject(ofstream &arquivo){
 	fileiras.saveData(arquivo);
 	arquivo << numvendido << "\n";
 	arquivo << lugaresVagos << "\n";
-	arquivo << inicio << "\n" << fim << "\n";
+	arquivo << horarioFilme << "\n";
 	arquivo << filme << "\n";
 	arquivo << idSala << "\n";
 	arquivo << idSessao << "\n";
@@ -222,10 +209,7 @@ void Sessao::loadObject(ifstream &arquivo){
 	arquivo >> numvendido;
 	arquivo >> lugaresVagos;
 	arquivo.ignore();
-	getline(arquivo, inicio);
-	//arquivo.ignore();
-	getline(arquivo, fim);
-	//arquivo.ignore();
+	getline(arquivo, horarioFilme);
 	getline(arquivo, filme);
 	arquivo >> idSala;
 	arquivo >> idSessao;

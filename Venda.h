@@ -6,7 +6,6 @@
 #include <time.h>
 #include "Sessao.h"
 #include "enumpag.h"
-#include "Data.h"
 #include "gerenciarSala.h"
 #include <iomanip>
 

@@ -22,8 +22,10 @@ public:
 	void situacao();		//altera situacao da sala
 	No<Sala>* buscarSala(int chave);	//busca sala na lista, de acordo com chave determinada
 	void ordenarSalas();	//ordena salas de acordo com o id
-	void inserirSessao();	//insere sessao na sala
+	void inserirSessao(Lista<Filme>&filmes);	//insere sessao na sala
 	void exibeSessoes();	//exibe sessoes
+	void removeSala();
+	void removeSessao();
 
 	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
 	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
@@ -52,7 +54,7 @@ void gerenciarSala::inserirSala() {
 }
 
 //Metodo para inserir sessao na sala.
-void gerenciarSala::inserirSessao(){
+void gerenciarSala::inserirSessao(Lista<Filme> &filmes){
 	int id;
 	No<Sala> *sala;
 
@@ -64,7 +66,7 @@ void gerenciarSala::inserirSessao(){
 		std::cout << "Sala nao encontrada" << std::endl;
 		return;
 	}//caso encontre, insere a sessao na lista de sessoes da sala
-	sala->elem.inserirSessao();
+	sala->elem.inserirSessao(filmes);
 }
 //Exibe lista de Salas existentes
 void gerenciarSala::exibeSalas() {
@@ -104,6 +106,32 @@ void gerenciarSala::situacao() {
 		if (erro == -1)
 			std::cout << "Sala Nao Existente" << std::endl;
 	}
+}
+
+void gerenciarSala::removeSala(){
+	int id;
+	salas.exibe();
+	cout << "Digite o id da sala:" << endl;
+	cin >> id;
+	if(salas.deletaValor(id)){
+		cout << "Sala removida." << endl;
+		return;
+	}
+	cout << "Sala não encontrada" << endl;
+}
+
+void gerenciarSala::removeSessao(){
+	int id;
+	No<Sala> *temp;
+	exibeSessoes();
+	cout << "Digite o id da sala:" << endl;
+	cin >> id;
+	temp = salas.busca(id);
+	if(temp==NULL){
+		cout << "Sala nao encontrada." << endl;
+		return;
+	}
+	temp->elem.removeSessao();
 }
 
 No<Sala>* gerenciarSala::buscarSala(int chave) {
