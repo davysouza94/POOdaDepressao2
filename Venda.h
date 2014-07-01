@@ -162,7 +162,6 @@ void Venda::addIngressos(gerenciarSala &salas){
 
 ostream& operator<<(ostream& os, const Venda& elem){
 	os << "Filme: " << elem.nomeFilme << endl;
-	os << "Quantidade de Ingressos: " << endl;
 	os << "Valor: " << elem.valorTotal << endl;
 	os << "Ingressos - Inteiro: " << elem.ingressosInteiro << " - Meio: " << elem.ingressosMeio << endl;
 	os << "Data:" << elem.dtVenda << endl;
