@@ -26,8 +26,10 @@ Alunos: Bruno Henrique Pereira  				552097  
 #include <string>
 #include "gerenciarSala.h"
 #include "Venda.h"
+#include "Filme.h"
 
 using namespace std;
+#include<string>
 
 //Declarando Funcoes
 void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar salas
@@ -36,6 +38,7 @@ void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao respo
 bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas);
 void saveData(Lista <Venda> &vendas, gerenciarSala &salas);
 void loadData(Lista<Venda> &vendas, gerenciarSala &salas);
+void gerenciaFilme(Lista<Filme> &filmes);
 
 /* ---------------- */
 /* ROTINA PRINCIPAL */
@@ -44,6 +47,7 @@ int main() {
 	//Declarando objetos
 	gerenciarSala salas;	//Objeto para gerenciamento de salas e sessoes
 	Lista <Venda> vendas;	//Lista encadeada que armazenará objetos do tipo venda
+	Lista <Filme> filmes;
 
 
 	//Carrega Dados
@@ -57,7 +61,8 @@ int main() {
 		cout << "  1 - Gerenciar Salas" << endl;
 		cout << "  2 - Gerenciar Sessoes" << endl;
 		cout << "  3 - Gerenciar Vendas" << endl;
-		cout << "  4 - Exibir Relatorio de Vendas" << endl;
+		cout << "  4 - Gerenciar Filmes" << endl;
+		cout << "  5 - Exibir Relatorio de Vendas" << endl;
 		//cout << "  5 - save" << endl;
 		//cout << "  6 - load" << endl;
 		//cout << "  7 - loadInput" << endl;
@@ -81,13 +86,12 @@ int main() {
 			gerenciaVenda(vendas, salas);
 			break;
 		case 4:
-			vendas.exibe();
+			gerenciaFilme(filmes);
 			break;
 		case 5:
-			//saveData(vendas, salas);
+			vendas.exibe();
 			break;
 		case 6:
-			//loadData(vendas, salas);
 			break;
 		case 704:
 			loadInput(salas, vendas);
@@ -96,6 +100,51 @@ int main() {
 			break;
 		}
 	}
+}
+
+void gerenciaFilme(Lista<Filme> &filmes){
+	int opcao = 0;
+	int idDel;
+	std::string nomeFilme;
+	cout << "Escolha uma das opcoes: " << endl;
+	cout << "  0 - Voltar" << endl;
+	cout << "  1 - Novo Filme" << endl;
+	cout << "  2 - Exibir Filmes" << endl;
+	cout << "  3 - Remover Filmes" << endl;
+	cout << "Opcao: ";
+	cin >> opcao;
+	cout << endl;
+
+	switch (opcao) {
+	case 0:
+		return;
+	case 1:
+		Filme *f;
+
+		cin >> nomeFilme;
+		f = new Filme(nomeFilme, 0);
+		filmes.insereFim(*f);
+		filmes.junta();
+		break;
+	case 2:
+		filmes.exibe();
+		break;
+	case 3:
+		filmes.exibe();
+		cout << "Digite o id do filme que deseja deletar:" << endl;
+		cin >> idDel;
+		filmes.deletaValor(idDel);
+		filmes.junta();
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	default:
+		break;
+	}
+
+
 }
 
 /*Funcao Responsavel pelo gerenciamento das Salas*/

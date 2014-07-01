@@ -26,6 +26,7 @@ public:
 	No<Tinfo>* getPl();
 	void saveData(ofstream &arquivo);
 	void loadData(ifstream &arquivo);
+	void junta();
 private:
 	No<Tinfo> *pl;
 };
@@ -204,6 +205,18 @@ void Lista<Tinfo>::ordena(){
 		aux1 = aux1->prox;
 	}
 
+}
+
+template<class Tinfo>
+void Lista<Tinfo>::junta(){
+	int cont = 1;
+	No<Tinfo> *aux;
+	aux = pl;
+	while(aux!=NULL){
+		aux->elem.setId(cont);
+		aux = aux->prox;
+		cont++;
+	}
 }
 
 template <class Tinfo>
