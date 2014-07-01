@@ -36,8 +36,8 @@ void gerenciaSala(gerenciarSala &salas);		//Funcao responsavel por gerenciar sal
 void gerenciaSessao(gerenciarSala &salas);		//Funcao responsavel por gerenciar sessoes
 void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas);  //Funcao responsavel por gerenciar vendas
 bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas);
-void saveData(Lista <Venda> &vendas, gerenciarSala &salas);
-void loadData(Lista<Venda> &vendas, gerenciarSala &salas);
+void saveData(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes);
+void loadData(Lista<Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes);
 void gerenciaFilme(Lista<Filme> &filmes);
 
 /* ---------------- */
@@ -51,7 +51,7 @@ int main() {
 
 
 	//Carrega Dados
-	loadData(vendas, salas);
+	loadData(vendas, salas, filmes);
 	//While para manter o programa em execução
 	int opcao = 1;
 	while (opcao != 0){
@@ -73,7 +73,7 @@ int main() {
 
 		switch (opcao) {
 		case 0:
-			saveData(vendas, salas);
+			saveData(vendas, salas, filmes);
 			cout << "Programa Finalizado" << endl;
 			return 0;
 		case 1:
@@ -94,57 +94,11 @@ int main() {
 		case 6:
 			break;
 		case 704:
-			loadInput(salas, vendas);
 			break;
 		default:
 			break;
 		}
 	}
-}
-
-void gerenciaFilme(Lista<Filme> &filmes){
-	int opcao = 0;
-	int idDel;
-	std::string nomeFilme;
-	cout << "Escolha uma das opcoes: " << endl;
-	cout << "  0 - Voltar" << endl;
-	cout << "  1 - Novo Filme" << endl;
-	cout << "  2 - Exibir Filmes" << endl;
-	cout << "  3 - Remover Filmes" << endl;
-	cout << "Opcao: ";
-	cin >> opcao;
-	cout << endl;
-
-	switch (opcao) {
-	case 0:
-		return;
-	case 1:
-		Filme *f;
-
-		cin >> nomeFilme;
-		f = new Filme(nomeFilme, 0);
-		filmes.insereFim(*f);
-		filmes.junta();
-		break;
-	case 2:
-		filmes.exibe();
-		break;
-	case 3:
-		filmes.exibe();
-		cout << "Digite o id do filme que deseja deletar:" << endl;
-		cin >> idDel;
-		filmes.deletaValor(idDel);
-		filmes.junta();
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	default:
-		break;
-	}
-
-
 }
 
 /*Funcao Responsavel pelo gerenciamento das Salas*/
@@ -188,7 +142,7 @@ void gerenciaSala(gerenciarSala &salas){
 
 /*Funcao Responsavel pelo gerenciamento das Sessoes*/
 void gerenciaSessao(gerenciarSala &salas){
-	
+
 	//Switch para menu de Gerenciamento de Sessoes
 	int opcao = 0;
 	cout << "Escolha uma das opcoes: " << endl;
@@ -203,6 +157,7 @@ void gerenciaSessao(gerenciarSala &salas){
 	case 0:
 		return;
 	case 1:
+		salas.exibeSalas();
 		salas.inserirSessao();
 		break;
 	case 2:
@@ -219,6 +174,51 @@ void gerenciaSessao(gerenciarSala &salas){
 	}
 }
 
+void gerenciaFilme(Lista<Filme> &filmes){
+	int opcao = 0;
+	int idDel;
+	std::string nomeFilme;
+	cout << "Escolha uma das opcoes: " << endl;
+	cout << "  0 - Voltar" << endl;
+	cout << "  1 - Novo Filme" << endl;
+	cout << "  2 - Exibir Filmes" << endl;
+	cout << "  3 - Remover Filmes" << endl;
+	cout << "Opcao: ";
+	cin >> opcao;
+	cout << endl;
+
+	switch (opcao) {
+	case 0:
+		return;
+	case 1:
+		Filme *f;
+		cout << "Nome do Filme:" << endl;
+		cin.ignore();
+		std::getline(cin, nomeFilme);
+		f = new Filme(nomeFilme, 0);
+		filmes.insereFim(*f);
+		filmes.junta();
+		break;
+	case 2:
+		filmes.exibe();
+		break;
+	case 3:
+		filmes.exibe();
+		cout << "Digite o id do filme que deseja deletar:" << endl;
+		cin >> idDel;
+		filmes.deletaValor(idDel);
+		filmes.junta();
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	default:
+		break;
+	}
+
+
+}
 
 void gerenciaVenda(Lista <Venda> &vendas, gerenciarSala &salas){
 	Venda *v = NULL; //Ponteiro auxiliar do tipo venda
@@ -321,24 +321,23 @@ bool loadInput(gerenciarSala &salas, Lista<Venda> &vendas){
     return 1;
 }
 
-
-
-
-void saveData(Lista <Venda> &vendas, gerenciarSala &salas){
+void saveData(Lista <Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes){
 	ofstream arquivo;
 	std::cout << "Salvando Dados..." << std::endl;
 	arquivo.open("save.txt");
 	salas.saveObject(arquivo);
+	filmes.saveData(arquivo);
 	vendas.saveData(arquivo);
 	arquivo.close();
 	std::cout << "Dados Salvos Com Sucesso!" << std::endl;
 }
 
-void loadData(Lista<Venda> &vendas, gerenciarSala &salas){
+void loadData(Lista<Venda> &vendas, gerenciarSala &salas, Lista<Filme> &filmes){
 	ifstream arquivo;
 	std::cout << "Carregando Dados..." << std::endl;
 	arquivo.open("save.txt");
 	salas.loadObject(arquivo);
+	filmes.loadData(arquivo);
 	vendas.loadData(arquivo);
 	std::cout << "Dados Carregados Com Sucesso!" << std::endl;
 	arquivo.close();

@@ -36,39 +36,19 @@ gerenciarSala::gerenciarSala():salas() {
 //Metodo para inserir Salas
 void gerenciarSala::inserirSala() {
 
-	int num, numFileira, numAssentos; //auxiliares
-	char opc = 'x';
+	int numFileira, numAssentos; //auxiliares
 
 	//Recebe Dados da sala a ser inserida
-	cout << "Informe o Numero da Sala: ";
-	cin >> num;
 	cout << "Informe o numero de fileiras: ";
 	cin >> numFileira;
 	cout << "Informe o numero de assentos por fileira: ";
 	cin >> numAssentos;
 
 	//se sala nao existe, cria uma nova e insere na lista.
-	if (salas.busca(num) == NULL) {
-		Sala temp(num, numAssentos, numFileira);
-		salas.insereFim(temp);
-		std::cout << "Sala criada com sucesso" << std::endl << std::endl;
-	} else {//se sala ja existe pergunta se deseja altera-la
-		while (opc != 'S' && opc != 's' && opc != 'N' && opc != 'n') {
-			std::cout << "Sala " << num << "  ja existe, deseja substitui-la?"	<< std::endl;
-			std::cout << "<S/N>";
-			std::cin >> opc;
-			if (opc == 'S' || opc == 's') {
-				Sala temp(num, numAssentos, numFileira);
-				salas.deletaValor(num);
-				salas.insereFim(temp);
-				std::cout << "Sala alterada com sucesso" << std::endl << std::endl;
-			} else if (opc == 'N' || opc == 'n') {
-				std::cout << "Sala nao foi alterada" << std::endl << std::endl;
-			} else {
-				std::cout << "Insira 'S' para Sim, 'N' para Nao" << endl;
-			}
-		}
-	}
+	Sala temp(0, numAssentos, numFileira);
+	salas.insereFim(temp);
+	std::cout << "Sala criada com sucesso" << std::endl << std::endl;
+	salas.junta();
 }
 
 //Metodo para inserir sessao na sala.
@@ -88,6 +68,7 @@ void gerenciarSala::inserirSessao(){
 }
 //Exibe lista de Salas existentes
 void gerenciarSala::exibeSalas() {
+	salas.junta();
 	salas.exibe();
 }
 //Exibe sessoes existentes

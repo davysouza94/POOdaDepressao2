@@ -25,7 +25,7 @@ public:
 
 	//Construtores
 	Sessao();
-	Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento);
+	Sessao(int idsala, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento);
 
 	//Metodos Gerais
 	void setStatus(int encerrado);
@@ -36,6 +36,7 @@ public:
 	void setHorario(int hor, int min);
 	int getDisponivel();
 	int setDisponivel(int qt, int opc);
+	void setId(int id);
 	void setNumVendido(int numVendido);
 	string getFilme();
 	void setFilme(string nomeFilme);
@@ -60,14 +61,14 @@ Sessao::Sessao(){
 }
 
 
-Sessao::Sessao(int idsala, int idsessao, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento){
+Sessao::Sessao(int idsala, string inic, string theEnd, string nomeFilme, int qtFileira, int numAssento){
 	inicio = inic;
 	fim = theEnd;
 	idSala = idsala;
 	numvendido = 0;
 	lugaresVagos = 1;
 	filme = nomeFilme;
-	idSessao = idsessao;
+	idSessao = 0;
 
 	Fileira *f, fIn;
 	int i;
@@ -113,6 +114,9 @@ int Sessao::getDisponivel(){
 	return lugaresVagos;
 }
 
+void Sessao::setId(int id){
+	idSessao = id;
+}
 int Sessao::setDisponivel(int qt, int opc){
 	if(opc == 0){
 		No<Fileira> *aux;

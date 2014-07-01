@@ -22,6 +22,10 @@ public:
 	friend ostream& operator<<(ostream& os, const Filme& elem);
 	bool operator==(const int num);
 	bool operator!=(const int num);
+
+	void saveObject(ofstream &arquivo);	//salva objeto no arquivo
+	void loadObject(ifstream &arquivo); //carrega objeto do arquivo
+
 };
 
 Filme::Filme(){
@@ -48,7 +52,7 @@ void Filme::setId(int id){
 
 
 ostream& operator<<(ostream& os, const Filme& elem){
-	os << elem.idFilme << " - Filme: " << elem.nomeFilme << endl;
+	os << elem.idFilme << " - " << elem.nomeFilme << endl;
 
     return os;
 }
@@ -66,7 +70,15 @@ bool Filme::operator!=(const int num){
 }
 
 
-
+void Filme::saveObject(ofstream &arquivo){
+	arquivo << idFilme << "\n";
+	arquivo << nomeFilme << "\n";
+}
+void Filme::loadObject(ifstream &arquivo){
+	arquivo >> idFilme;
+	arquivo.ignore();
+	getline(arquivo, nomeFilme);
+}
 
 
 

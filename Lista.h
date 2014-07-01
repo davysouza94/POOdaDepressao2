@@ -235,7 +235,7 @@ void Lista<Tinfo>::saveData(ofstream &arquivo){
 	}
 	aux = pl;
 	arquivo << qtElem;
-	arquivo << " ";
+	arquivo << "\n";
 	while(aux!=NULL){
 		aux->elem.saveObject(arquivo);
 		aux = aux->prox;
@@ -245,14 +245,15 @@ void Lista<Tinfo>::saveData(ofstream &arquivo){
 template<class Tinfo>
 void Lista<Tinfo>::loadData(ifstream &arquivo){
 	No<Tinfo> *aux;
-	int qtElem;
+	int qtElem = 0;
 	int i;
 	arquivo >> qtElem;
 	aux = new No<Tinfo>;
 
-	aux->elem.loadObject(arquivo);
-	pl = aux;
-
+	if(qtElem>0){ //caso save.txt esteja vazio
+		aux->elem.loadObject(arquivo);
+		pl = aux;
+	}
 	for(i=1;i<qtElem;i++){
 		aux->prox = new No<Tinfo>;
 		aux = aux->prox;

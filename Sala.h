@@ -17,7 +17,6 @@ private:
 	int capacidade;		//Capacidade
 	int qtFileiras;		//Quantidade de Fileiras
 	int qtAssentos;		//Quantidade de Assentos
-	int qtSessoes;		//Quantidade de Sessoes
 	Data hora;			//Horario da Sessao (Inicio e Termino)
 	Situacao situacao;	//enum Situacao, que indica o estado da sala
 	Lista < Sessao > sessoes;  //Lista para objetos do tipo Sessao
@@ -36,6 +35,7 @@ public:
 	void setCapacidade(int cap);
 	void setSituacao(int sit);
 	void inserirSessao();
+	void setId(int id);
 
 	//Metodos Gerais
 	No<Sessao>* buscarSessao(int chave);  //Busca Sessao na lista de sessoes, de acordo com a chave Inserida
@@ -57,7 +57,6 @@ public:
 //construtor padrao
 Sala::Sala():sessoes(){
 	qtAssentos = 10;
-	qtSessoes = 0;
 	qtFileiras = 10;
 	numSala = 0;
 	capacidade = qtFileiras*10;
@@ -68,7 +67,6 @@ Sala::Sala(int nsala, int numAssento, int qtFil):sessoes(){
 	numSala = nsala;
 	qtAssentos = numAssento;
 	qtFileiras = qtFil;
-	qtSessoes = 0;
 	capacidade = numAssento*qtFileiras;
 	situacao = disponivel;
 }
@@ -93,14 +91,13 @@ void Sala::inserirSessao(){
 	fim = hora.getHoraFim();
 
 	try{//Tratamento de erro para inserir sessao
-		s = new Sessao(numSala, qtSessoes, inicio, fim, nome, qtFileiras, qtAssentos);
+		s = new Sessao(numSala, inicio, fim, nome, qtFileiras, qtAssentos);
 		sIn = *s;
 		sessoes.insereFim(sIn);
-		qtSessoes++;
 	}catch(...){
 		std::cout << "Erro" << std::endl;
 	}
-
+	sessoes.junta();
 }
 
 No<Sessao>* Sala::buscarSessao(int chave) {
@@ -195,7 +192,6 @@ void Sala::saveObject(ofstream &arquivo){
 	arquivo << capacidade << "\n";
 	arquivo << qtFileiras << "\n";
 	arquivo << qtAssentos << "\n";
-	arquivo << qtSessoes << "\n";
 	hora.saveObject(arquivo);
 	switch(situacao){
 	case disponivel:
@@ -219,7 +215,6 @@ void Sala::loadObject(ifstream &arquivo){
 	arquivo >> capacidade;
 	arquivo >> qtFileiras;
 	arquivo >> qtAssentos;
-	arquivo >> qtSessoes;
 	hora.loadObject(arquivo);
 	arquivo >> opc;
 	switch(opc){
@@ -238,4 +233,7 @@ void Sala::loadObject(ifstream &arquivo){
 	}
 }
 
+void Sala::setId(int id){
+	numSala = id;
+}
 #endif
